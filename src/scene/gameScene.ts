@@ -1,5 +1,7 @@
+import { BackButton } from "../entity/backButton";
 import { Tilemap } from "../entity/tilemap";
 import { OperationFactory } from "../factory/operationFactory";
+import { BattleService } from "../service/battle/battleService";
 import { OperationService } from "../service/operation/operationService";
 import { DirectionType } from "../type/directionType";
 
@@ -20,10 +22,12 @@ export class GameScene extends Phaser.Scene {
 
     preload() {
         this.load.image('mapTiles', 'assets/images/numbers.png');
+        this.load.image('backButton', 'assets/images/backButton.png')
     }
 
     create() {
         this.tilemap = new Tilemap(this, 'mapTiles');
+        new BackButton(this, 'titleScene');
     }
 
     update() {
@@ -31,9 +35,7 @@ export class GameScene extends Phaser.Scene {
 
         if (this.tilemap.mapState.isDone()) {
             // ゲーム終了
-            this.add.text(this.sys.canvas.width/2, this.sys.canvas.height/2, 'Done!')
-                .setOrigin(0.5)
-                .setInteractive();
+            BattleService.showResult(this, this.tilemap);
         } else {
             // ゲームプレイ中
             const direction: DirectionType = this.operation.getDirection(this.tilemap);

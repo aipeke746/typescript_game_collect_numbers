@@ -8,7 +8,7 @@ import { Params } from './params';
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     width: MapState.SIZE * Params.MAP_COLUMN,
-    height: MapState.SIZE * Params.MAP_ROW,
+    height: MapState.SIZE * Params.MAP_ROW + 100,
     parent: 'app',
     physics: {
         default: 'arcade',
