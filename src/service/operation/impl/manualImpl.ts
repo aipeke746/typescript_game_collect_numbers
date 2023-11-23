@@ -1,3 +1,4 @@
+import { Character } from "../../../entity/character";
 import { TimeDelayManager } from "../../../manager/timeDelayManager";
 import { DirectionType } from "../../../type/directionType";
 import { OperationService } from "../operationService";
@@ -25,9 +26,11 @@ export class ManualImpl implements OperationService {
      * キャラクターの移動方向を返す
      * @returns キャラクターの移動方向
      */
-    public getDirection(): DirectionType {
-        if (!this.timeDelayManager.isDelayPassed())
+    public getDirection(character: Character): DirectionType {
+        if (!this.timeDelayManager.isDelayPassed()) {
+            character.idle();
             return DirectionType.NONE;
+        }
 
         return this.getManualDirection();
     }

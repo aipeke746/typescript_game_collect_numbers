@@ -24,10 +24,6 @@ export class Character {
      */
     private scene: Phaser.Scene;
     /**
-     * アニメーションの状態
-     */
-    private animState: WalkType = 'idle';
-    /**
      * アニメーションの設定
      */
     private anims: { key: WalkType, frameStart: number, frameEnd: number }[] = [
@@ -54,8 +50,9 @@ export class Character {
 
         for (let anim of this.anims) {
             if (scene.anims.create(this.animConfig(scene, anim, spriteName)) === false) continue;
-            this.sprite.anims.playReverse(anim.key);
+            this.sprite.anims.play(anim.key);
         }
+        this.sprite.anims.play('walk_front');
     }
 
     /**
@@ -66,10 +63,8 @@ export class Character {
     public moveTo(nextCoord: Coord, tilemap: Tilemap, direction: DirectionType): void {
         this.walking = true;
         this.coord = nextCoord;
+        this.playAnimation(WalkTypeUtil.get(direction));
         this.gridWalkTween(tilemap, nextCoord, () => { tilemap.advance(nextCoord) });
-
-        const walkType: WalkType = WalkTypeUtil.get(direction);
-        this.playAnimation(walkType);
     }
 
     /**
@@ -85,13 +80,18 @@ export class Character {
     }
 
     /**
+     * キャラクターのアニメーションを停止する
+     */
+    public idle(): void {
+        this.sprite.anims.stop();
+    }
+
+    /**
      * キャラクターのアニメーションを再生する
      * @param walkType 歩行タイプ
      */
     public playAnimation(walkType: WalkType): void {
-        if (this.animState === walkType) return;
         this.sprite.anims.play(walkType);
-        this.animState = walkType;
     }
 
     /**
