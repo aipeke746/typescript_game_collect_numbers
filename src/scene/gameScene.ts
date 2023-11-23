@@ -1,5 +1,6 @@
 import { BackButton } from "../entity/backButton";
 import { Character } from "../entity/character";
+import { MapState } from "../entity/mapState";
 import { Tilemap } from "../entity/tilemap";
 import { OperationFactory } from "../factory/operationFactory";
 import { BattleService } from "../service/battle/battleService";
@@ -33,6 +34,7 @@ export class GameScene extends Phaser.Scene {
         new BackButton(this, 'titleScene');
         this.tilemap = new Tilemap(this, 'mapTiles');
         this.character = new Character(this, this.tilemap, "character");
+        this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_NUMBER);
     }
 
     update() {

@@ -100,7 +100,7 @@ export class MapState {
      * @param coord 座標
      * @param point ポイント
      */
-    private setPoint(coord: Coord, point: number): void {
+    public setPoint(coord: Coord, point: number): void {
         this.points[coord.y][coord.x] = point;
     }
 }
