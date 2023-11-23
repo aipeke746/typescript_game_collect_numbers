@@ -1,9 +1,9 @@
 import { DirectionType } from "../type/directionType";
 
 /**
- * 移動方向のユーティリティクラス
+ * 移動方向から差分を返すクラス
  */
-export class DirectionUtil {
+export class DirectionDiffUtil {
     /**
      * 移動方向の差分
      */
@@ -17,8 +17,8 @@ export class DirectionUtil {
      */
     public static get(direction: DirectionType): [x: number, y: number] {
         return [
-            DirectionUtil.DX[direction],
-            DirectionUtil.DY[direction]
+            DirectionDiffUtil.DX[direction],
+            DirectionDiffUtil.DY[direction]
         ];
     }
 }

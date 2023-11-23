@@ -1,5 +1,5 @@
 import { Params } from '../params';
-import { DirectionType } from '../type/directionType';
+import { Coord } from './coord';
 import { MapState } from './mapState';
 
 /**
@@ -31,11 +31,31 @@ export class Tilemap {
     }
 
     /**
-     * プレイヤーを移動させる
+     * タイルマップの座標からワールド（画面）の座標を取得する
+     * @param tx タイルマップのx座標
+     * @param ty タイルマップのy座標
+     * @returns ワールドの座標
+     */
+    public getTilePos(tx: number, ty: number): Phaser.Math.Vector2 {
+        return this.layer.worldToTileXY(tx, ty);
+    }
+
+    /**
+     * ワールド（画面）の座標からタイルマップの座標を取得する
+     * @param wx ワールドのｘ座標
+     * @param wy ワールドのy座標
+     * @returns タイルマップの座標
+     */
+    public getWorldPos(wx: number, wy: number): Phaser.Math.Vector2 {
+        return this.layer.tileToWorldXY(wx, wy);
+    }
+
+    /**
+     * キャラクターが移動した時のマップ情報とタイルマップの更新を行う
      * @param direction 移動方向
      */
-    public advance(direction: DirectionType): void {
-        this.mapState.advance(direction);
+    public advance(nextCoord: Coord): void {
+        this.mapState.advance(nextCoord);
         this.update();
     }
 

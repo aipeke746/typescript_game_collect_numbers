@@ -1,10 +1,11 @@
-import { Tilemap } from "../../../entity/tilemap";
+import { Character } from "../../../entity/character";
 import { TimeDelayManager } from "../../../manager/timeDelayManager";
 import { DirectionType } from "../../../type/directionType";
+import { MapService } from "../../map/mapService";
 import { OperationService } from "../operationService";
 
 /**
- * プレイヤーのランダムで動かすすクラス
+ * キャラクターのランダムで動かすすクラス
  */
 export class RandomImpl implements OperationService {
     /**
@@ -17,25 +18,25 @@ export class RandomImpl implements OperationService {
     }
 
     /**
-     * プレイヤーの移動方向を返す
+     * キャラクターの移動方向を返す
      * @param tilemap タイルマップ
-     * @returns プレイヤーの移動方向
+     * @returns キャラクターの移動方向
      */
-    public getDirection(tilemap: Tilemap): DirectionType {
+    public getDirection(character: Character): DirectionType {
         if (!this.timeDelayManager.isDelayPassed())
             return DirectionType.NONE;
         this.timeDelayManager.update();
 
-        return this.getRandomDirection(tilemap);
+        return this.getRandomDirection(character);
     }
 
     /**
-     * ランダムにプレイヤーの移動方向を返す
+     * ランダムにキャラクターの移動方向を返す
      * @param tilemap タイルマップ
-     * @returns ランダムに選択されたプレイヤーの移動方向
+     * @returns ランダムに選択されたキャラクターの移動方向
      */
-    private getRandomDirection(tilemap: Tilemap): DirectionType {
-        const directions: DirectionType[] = tilemap.mapState.legalDirections();
+    private getRandomDirection(character: Character): DirectionType {
+        const directions: DirectionType[] = MapService.legalDirections(character);
         return directions[Math.floor(Math.random() * directions.length)];
     }
 }

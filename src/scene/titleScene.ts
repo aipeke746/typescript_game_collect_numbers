@@ -14,6 +14,14 @@ export class TitleScene extends Phaser.Scene {
         this.createText(this.sys.canvas.width/2, this.sys.canvas.height/2+30, '貪欲法でプレイする', OperationType.GREEDY);
     }
 
+    /**
+     * テキストを生成して、クリック時のイベントを設定する
+     * イベント：操作方法
+     * @param x ワールドのｘ座標
+     * @param y ワールドのｙ座標
+     * @param content 表示内容
+     * @param operationType 操作タイプ
+     */
     private createText(x: number, y: number, content: string, operationType: OperationType): void {
         const text = this.add.text(x, y, content)
             .setOrigin(0.5)

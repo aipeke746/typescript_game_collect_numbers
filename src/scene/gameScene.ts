@@ -1,7 +1,9 @@
 import { BackButton } from "../entity/backButton";
+import { Character } from "../entity/character";
 import { Tilemap } from "../entity/tilemap";
 import { OperationFactory } from "../factory/operationFactory";
 import { BattleService } from "../service/battle/battleService";
+import { MapService } from "../service/map/mapService";
 import { OperationService } from "../service/operation/operationService";
 import { DirectionType } from "../type/directionType";
 
@@ -9,6 +11,7 @@ import { DirectionType } from "../type/directionType";
  * ゲーム画面のシーン
  */
 export class GameScene extends Phaser.Scene {
+    private character?: Character;
     private tilemap?: Tilemap;
     private operation?: OperationService;
 
@@ -22,26 +25,28 @@ export class GameScene extends Phaser.Scene {
 
     preload() {
         this.load.image('mapTiles', 'assets/images/numbers.png');
-        this.load.image('backButton', 'assets/images/backButton.png')
+        this.load.spritesheet('character', 'assets/images/character.png', { frameWidth: 32, frameHeight: 32 })
+        this.load.image('backButton', 'assets/images/backButton.png');
     }
 
     create() {
-        this.tilemap = new Tilemap(this, 'mapTiles');
         new BackButton(this, 'titleScene');
+        this.tilemap = new Tilemap(this, 'mapTiles');
+        this.character = new Character(this, this.tilemap, "character");
     }
 
     update() {
-        if (!this.operation || !this.tilemap) return;
+        if (!this.character || !this.operation || !this.tilemap) return;
 
         if (this.tilemap.mapState.isDone()) {
             // ゲーム終了
             BattleService.showResult(this, this.tilemap);
         } else {
             // ゲームプレイ中
-            const direction: DirectionType = this.operation.getDirection(this.tilemap);
+            const direction: DirectionType = this.operation.getDirection(this.character, this.tilemap);
             if (direction === DirectionType.NONE) return;
 
-            this.tilemap.advance(direction);
+            MapService.advance(this.character, this.tilemap, direction);
         }
     }
 }

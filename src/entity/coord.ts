@@ -1,25 +1,44 @@
 import { Params } from "../params";
 import { DirectionType } from "../type/directionType";
-import { DirectionUtil } from "../util/directionUtil";
+import { DirectionDiffUtil } from "../util/directionDiffUtil";
 
 /**
- * 座標を表すクラス
+ * タイルマップの座標を表すクラス
  */
 export class Coord {
-    public x: integer;
-    public y: integer;
+    /**
+     * タイルマップのx座標
+     */
+    public readonly x: integer;
+    /**
+     * タイルマップのｙ座標
+     */
+    public readonly y: integer;
 
     /**
-     * 座標を生成する（マップ外の座標の場合は例外を投げる）
+     * タイルマップの座標を生成する（マップ外の座標の場合は例外を投げる）
+     * @param coord タイルマップの座標
+     */
+    constructor(coord: Coord);
+    /**
+     * タイルマップの座標を生成する（マップ外の座標の場合は例外を投げる）
      * @param x x座標
      * @param y y座標
      */
-    constructor(x: integer = 0, y: integer = 0) {
-        if ((x < 0 || Params.MAP_COLUMN <= x) || (y < 0 || Params.MAP_ROW <= y)) {
+    constructor(x: integer, y: integer);
+
+    constructor(coordOrX: Coord | number, y?: number) {
+        if (coordOrX instanceof Coord) {
+            this.x = coordOrX.x;
+            this.y = coordOrX.y;
+        } else {
+            this.x = coordOrX;
+            this.y = y!;
+        }
+
+        if ((this.x < 0 || Params.MAP_COLUMN <= this.x) || (this.y < 0 || Params.MAP_ROW <= this.y)) {
             throw new Error('invalid coord');
         }
-        this.x = x;
-        this.y = y;
     }
 
     /**
@@ -28,7 +47,16 @@ export class Coord {
      * @returns 移動先の座標
      */
     public getMoveToCoord(direction: DirectionType): Coord {
-        const [dx, dy] = DirectionUtil.get(direction);
+        const [dx, dy] = DirectionDiffUtil.get(direction);
         return new Coord(this.x + dx, this.y + dy);
+    }
+
+    /**
+     * 対象の座標と等しいかどうかを返す
+     * @param coord 対象の座標
+     * @returns 対象の座標と等しい場合はtrue
+     */
+    public equals(coord: Coord): boolean {
+        return this.x === coord.x && this.y === coord.y;
     }
 }

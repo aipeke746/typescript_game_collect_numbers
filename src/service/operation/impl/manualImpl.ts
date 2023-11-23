@@ -3,7 +3,7 @@ import { DirectionType } from "../../../type/directionType";
 import { OperationService } from "../operationService";
 
 /**
- * プレイヤーを手動で動かすクラス
+ * キャラクターを手動で動かすクラス
  */
 export class ManualImpl implements OperationService {
     /**
@@ -22,8 +22,8 @@ export class ManualImpl implements OperationService {
     }
 
     /**
-     * プレイヤーの移動方向を返す
-     * @returns プレイヤーの移動方向
+     * キャラクターの移動方向を返す
+     * @returns キャラクターの移動方向
      */
     public getDirection(): DirectionType {
         if (!this.timeDelayManager.isDelayPassed())
@@ -33,8 +33,8 @@ export class ManualImpl implements OperationService {
     }
 
     /**
-     * 方向キーの入力からプレイヤーの移動方向を返す
-     * @returns プレイヤーの移動方向
+     * 方向キーの入力からキャラクターの移動方向を返す
+     * @returns キャラクターの移動方向
      */
     private getManualDirection(): DirectionType {
         let direction = DirectionType.NONE;
