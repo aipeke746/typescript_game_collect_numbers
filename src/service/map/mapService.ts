@@ -4,15 +4,20 @@ import { Tilemap } from "../../entity/tilemap";
 import { DirectionType } from "../../type/directionType";
 
 export class MapService {
+
     /**
-     * 指定された移動方向に進めるかどうかを返す
+     * キャラクターをグリッド移動させる
+     * タイルマップやポイントの更新も行う
+     * @param scene シーン
+     * @param character キャラクター
+     * @param tilemap タイルマップ
      * @param direction 移動方向
-     * @returns 進めるかどうか
      */
-    public static advance(character: Character, tilemap: Tilemap, direction: DirectionType): void {
+    public static advance(scene: Phaser.Scene, character: Character, tilemap: Tilemap, direction: DirectionType): void {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(character, direction);
-            character.moveTo(nextCoord, tilemap, direction);
+            character.startWalk(nextCoord, direction);
+            this.gridWalkTween(scene, character, tilemap, nextCoord, () => { tilemap.advance(nextCoord) });
         } catch {
             return;
         }
@@ -39,6 +44,8 @@ export class MapService {
 
     /**
      * 指定された移動方向から移動先のポイントを返す
+     * @param character キャラクター
+     * @param tilemap タイルマップ
      * @param direction 移動方向
      * @returns キャラクターの移動先のポイント
      */
@@ -53,10 +60,42 @@ export class MapService {
 
     /**
      * 指定された移動方向からキャラクターの移動先の座標を返す
+     * @param character キャラクター
      * @param direction 移動方向
      * @returns キャラクターの移動先の座標
      */
     private static getMoveToCoordFromCharacter(character: Character, direction: DirectionType): Coord {
         return character.getCoord().getMoveToCoord(direction);
+    }
+
+    /**
+     *　キャラクターをグリッド移動させる
+     * @param scene シーン
+     * @param character キャラクター
+     * @param tilemap タイルマップ
+     * @param nextCoord 移動先の座標
+     * @param onComplete 移動後の処理
+     */
+     private static gridWalkTween(scene: Phaser.Scene, character: Character, tilemap: Tilemap, nextCoord: Coord, onComplete: () => void) {
+        const nowPos = character.getPos();
+        const nextPos = tilemap.getWorldPos(nextCoord.x, nextCoord.y);
+
+        let tween: Phaser.Tweens.Tween = scene.add.tween({
+            targets: [character.getSprite()],
+            x: {
+                getStart: () => nowPos.x,
+                getEnd: () => nextPos.x,
+            },
+            y: {
+                getStart: () => nowPos.y,
+                getEnd: () => nextPos.y,
+            },
+            duration: 500,
+            onComplete: () => {
+                tween.stop()
+                character.stopWalk();
+                onComplete()
+            }
+        })
     }
 }

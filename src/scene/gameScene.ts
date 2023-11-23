@@ -51,7 +51,7 @@ export class GameScene extends Phaser.Scene {
             const direction: DirectionType = this.operation.getDirection(this.character, this.tilemap);
             if (direction === DirectionType.NONE) return;
 
-            MapService.advance(this.character, this.tilemap, direction);
+            MapService.advance(this, this.character, this.tilemap, direction);
         }
     }
 }

@@ -20,10 +20,6 @@ export class Character {
      */
     private walking: boolean = false;
     /**
-     * シーン
-     */
-    private scene: Phaser.Scene;
-    /**
      * アニメーションの設定
      */
     private anims: { key: WalkType, frameStart: number, frameEnd: number }[] = [
@@ -41,7 +37,6 @@ export class Character {
      */
     constructor(scene: Phaser.Scene, tilemap: Tilemap, spriteName: string) {
         this.coord = this.randomCoord();
-        this.scene = scene;
 
         const pos = this.getWorldPos(tilemap);
         this.sprite = scene.add.sprite(pos.x, pos.y, spriteName)
@@ -56,23 +51,27 @@ export class Character {
     }
 
     /**
-     * キャラクターを移動させる
-     * @param nextCoord 移動先の座標
-     * @param direction 移動方向
+     * キャラクターのスプライトを取得する
+     * @returns キャラクターのスプライト
      */
-    public moveTo(nextCoord: Coord, tilemap: Tilemap, direction: DirectionType): void {
-        this.walking = true;
-        this.coord = nextCoord;
-        this.playAnimation(WalkTypeUtil.get(direction));
-        this.gridWalkTween(tilemap, nextCoord, () => { tilemap.advance(nextCoord) });
+    public getSprite(): Phaser.GameObjects.Sprite {
+        return this.sprite;
     }
 
     /**
-     * キャラクターの座標を取得する
+     * キャラクターのタイルマップの座標を取得する
      * @returns キャラクターの座標
      */
     public getCoord(): Coord {
         return this.coord;
+    }
+
+    /**
+     * キャラクターのワールド（画面）の座標を取得する
+     * @returns キャラクターのワールド（画面）の座標
+     */
+    public getPos(): Phaser.Math.Vector2 {
+        return new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
     }
 
     /**
@@ -81,6 +80,24 @@ export class Character {
      */
     public isWalking(): boolean {
         return this.walking;
+    }
+
+    /**
+     * キャラクターを移動させる
+     * @param nextCoord 移動先の座標
+     * @param direction 移動方向
+     */
+    public startWalk(nextCoord: Coord, direction: DirectionType): void {
+        this.walking = true;
+        this.coord = nextCoord;
+        this.playAnimation(WalkTypeUtil.get(direction));
+    }
+
+    /**
+     * キャラクターが歩いていない状態にする
+     */
+    public stopWalk(): void {
+        this.walking = false;
     }
 
     /**
@@ -114,34 +131,6 @@ export class Character {
      */
     private getWorldPos(tilemap: Tilemap): Phaser.Math.Vector2 {
         return tilemap.getWorldPos(this.coord.x, this.coord.y);
-    }
-
-    /**
-     *　キャラクターをグリッド移動させる
-     * @param tilemap タイルマップ
-     * @param nextCoord 移動先の座標
-     * @param onComplete 移動後の処理
-     */
-    private gridWalkTween(tilemap: Tilemap, nextCoord: Coord, onComplete: () => void) {
-        const nextPos = tilemap.getWorldPos(nextCoord.x, nextCoord.y);
-
-        let tween: Phaser.Tweens.Tween = this.scene.add.tween({
-            targets: [this.sprite],
-            x: {
-                getStart: () => this.sprite.x,
-                getEnd: () => nextPos.x,
-            },
-            y: {
-                getStart: () => this.sprite.y,
-                getEnd: () => nextPos.y,
-            },
-            duration: 500,
-            onComplete: () => {
-                tween.stop()
-                this.walking = false;
-                onComplete()
-            }
-        })
     }
 
     /**
