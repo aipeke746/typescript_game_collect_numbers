@@ -24,6 +24,7 @@ export class MapState {
     private points: number[][] = Array.from(Array(Params.MAP_ROW), () => new Array(Params.MAP_COLUMN).fill(0));
     /**
      * ターン数
+     * ゲーム開始時にプレイヤー位置の初期化で1ターン使用する
      */
     private turn: number = 0;
     /**
@@ -67,7 +68,7 @@ export class MapState {
      * @returns ゲーム終了
      */
     public isDone(): boolean {
-        return this.turn === Params.END_TURN;
+        return this.turn > Params.END_TURN;
     }
 
     /**

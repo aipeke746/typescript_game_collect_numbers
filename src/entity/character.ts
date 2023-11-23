@@ -16,6 +16,10 @@ export class Character {
      */
     private coord: Coord;
     /**
+     * キャラクターが歩いているかどうか
+     */
+    private walking: boolean = false;
+    /**
      * シーン
      */
     private scene: Phaser.Scene;
@@ -60,8 +64,9 @@ export class Character {
      * @param direction 移動方向
      */
     public moveTo(nextCoord: Coord, tilemap: Tilemap, direction: DirectionType): void {
+        this.walking = true;
         this.coord = nextCoord;
-        this.gridWalkTween(tilemap, nextCoord, () => {tilemap.advance(nextCoord)});
+        this.gridWalkTween(tilemap, nextCoord, () => { tilemap.advance(nextCoord) });
 
         const walkType: WalkType = WalkTypeUtil.get(direction);
         this.playAnimation(walkType);
@@ -73,6 +78,10 @@ export class Character {
      */
     public getCoord(): Coord {
         return this.coord;
+    }
+
+    public isWalking(): boolean {
+        return this.walking;
     }
 
     /**
@@ -122,9 +131,10 @@ export class Character {
                 getStart: () => this.sprite.y,
                 getEnd: () => nextPos.y,
             },
-            duration: 1000,
+            duration: 500,
             onComplete: () => {
                 tween.stop()
+                this.walking = false;
                 onComplete()
             }
         })

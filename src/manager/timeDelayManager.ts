@@ -17,9 +17,9 @@ export class TimeDelayManager {
      * @param scene シーン
      * @param delay 移動する間隔（秒）
      */
-    constructor(scene: Phaser.Scene, delay: number = 0.5) {
+    constructor(scene: Phaser.Scene, delay: number = 0.8) {
         this.scene = scene;
-        this.lastMoveTime = this.scene.time.now + 3000;
+        this.lastMoveTime = this.scene.time.now + 3000; // 開始時は　3秒後に移動する
         this.move_delay = delay * 1000;
     }
 

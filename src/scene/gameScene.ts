@@ -41,6 +41,7 @@ export class GameScene extends Phaser.Scene {
 
     update() {
         if (!this.character || !this.operation || !this.tilemap) return;
+        if (this.character.isWalking()) return;
 
         if (this.tilemap.mapState.isDone()) {
             // ゲーム終了
