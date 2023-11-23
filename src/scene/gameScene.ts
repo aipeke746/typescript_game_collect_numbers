@@ -34,7 +34,9 @@ export class GameScene extends Phaser.Scene {
         new BackButton(this, 'titleScene');
         this.tilemap = new Tilemap(this, 'mapTiles');
         this.character = new Character(this, this.tilemap, "character");
+        // キャラクターの初期位置のポイントを0にする
         this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_NUMBER);
+        this.tilemap.advance(this.character.getCoord());
     }
 
     update() {
