@@ -16,9 +16,9 @@ export class Character {
      */
     private coord: Coord;
     /**
-     * タイルマップ
+     * シーン
      */
-    private tilemap: Tilemap;
+    private scene: Phaser.Scene;
     /**
      * アニメーションの状態
      */
@@ -41,9 +41,9 @@ export class Character {
      */
     constructor(scene: Phaser.Scene, tilemap: Tilemap, spriteName: string) {
         this.coord = this.randomCoord();
-        this.tilemap = tilemap;
+        this.scene = scene;
 
-        const pos = this.getWorldPos();
+        const pos = this.getWorldPos(tilemap);
         this.sprite = scene.add.sprite(pos.x, pos.y, spriteName)
             .setOrigin(0, 0)
             .setDisplaySize(this.SIZE, this.SIZE);
@@ -59,10 +59,9 @@ export class Character {
      * @param nextCoord 移動先の座標
      * @param direction 移動方向
      */
-    public moveTo(nextCoord: Coord, direction: DirectionType): void {
+    public moveTo(nextCoord: Coord, tilemap: Tilemap, direction: DirectionType): void {
         this.coord = nextCoord;
-        const pos = this.getWorldPos();
-        this.sprite.setPosition(pos.x, pos.y);
+        this.gridWalkTween(tilemap, nextCoord, () => {tilemap.advance(nextCoord)});
 
         const walkType: WalkType = WalkTypeUtil.get(direction);
         this.playAnimation(walkType);
@@ -100,8 +99,35 @@ export class Character {
      * タイルマップの座標からキャラクターのワールド（画面）の座標を取得する
      * @returns キャラクターのワールドの座標
      */
-    private getWorldPos(): Phaser.Math.Vector2 {
-        return this.tilemap.getWorldPos(this.coord.x, this.coord.y);
+    private getWorldPos(tilemap: Tilemap): Phaser.Math.Vector2 {
+        return tilemap.getWorldPos(this.coord.x, this.coord.y);
+    }
+
+    /**
+     *　キャラクターをグリッド移動させる
+     * @param tilemap タイルマップ
+     * @param nextCoord 移動先の座標
+     * @param onComplete 移動後の処理
+     */
+    private gridWalkTween(tilemap: Tilemap, nextCoord: Coord, onComplete: () => void) {
+        const nextPos = tilemap.getWorldPos(nextCoord.x, nextCoord.y);
+
+        let tween: Phaser.Tweens.Tween = this.scene.add.tween({
+            targets: [this.sprite],
+            x: {
+                getStart: () => this.sprite.x,
+                getEnd: () => nextPos.x,
+            },
+            y: {
+                getStart: () => this.sprite.y,
+                getEnd: () => nextPos.y,
+            },
+            duration: 1000,
+            onComplete: () => {
+                tween.stop()
+                onComplete()
+            }
+        })
     }
 
     /**

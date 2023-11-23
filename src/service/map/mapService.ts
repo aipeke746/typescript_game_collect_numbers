@@ -12,8 +12,7 @@ export class MapService {
     public static advance(character: Character, tilemap: Tilemap, direction: DirectionType): void {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(character, direction);
-            character.moveTo(nextCoord, direction);
-            tilemap.advance(nextCoord);
+            character.moveTo(nextCoord, tilemap, direction);
         } catch {
             return;
         }
