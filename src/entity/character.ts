@@ -75,6 +75,10 @@ export class Character {
         return this.coord;
     }
 
+    /**
+     * キャラクターが歩いているかどうかを返す
+     * @returns キャラクターが歩いているかどうか
+     */
     public isWalking(): boolean {
         return this.walking;
     }

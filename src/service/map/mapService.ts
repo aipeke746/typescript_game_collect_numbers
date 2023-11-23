@@ -18,6 +18,11 @@ export class MapService {
         }
     }
 
+    /**
+     * 指定されたキャラクターが移動できる方向を返す
+     * @param character キャラクター
+     * @returns 移動できる方向
+     */
     public static legalDirections(character: Character) {
         const directions: DirectionType[] = [];
         for (let direction=0; direction<4; direction++) {
