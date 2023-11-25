@@ -14,11 +14,11 @@ export class OperationFactory {
             case OperationType.MANUAL:
                 return new ManualImpl(scene);
             case OperationType.RANDOM:
-                return new RandomImpl(scene);
+                return new RandomImpl();
             case OperationType.GREEDY:
-                return new GreedyImpl(scene);
+                return new GreedyImpl();
             case OperationType.BEAM_SEARCH:
-                return new BeamSearchImpl(scene);
+                return new BeamSearchImpl();
             default:
                 return new ManualImpl(scene);
         }

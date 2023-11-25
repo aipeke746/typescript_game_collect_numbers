@@ -1,7 +1,6 @@
 import { Character } from "../../../entity/character";
 import { SimulateImpl } from "../../simulate/impl/simulateImpl";
 import { Tilemap } from "../../../entity/tilemap";
-import { TimeDelayManager } from "../../../manager/timeDelayManager";
 import { Params } from "../../../params";
 import { DirectionType } from "../../../type/directionType";
 import { MapService } from "../../map/mapService";
@@ -13,10 +12,6 @@ import { Simulate } from "../../simulate/simulate";
  */
 export class BeamSearchImpl implements OperationService {
     /**
-     * 時間遅延管理
-     */
-    private timeDelayManager: TimeDelayManager;
-    /**
      * 探索幅
      */
     private beamDepth: number = 2;
@@ -25,10 +20,6 @@ export class BeamSearchImpl implements OperationService {
      */
     private beamWidth: number = Params.END_TURN;
 
-    constructor(scene: Phaser.Scene) {
-        this.timeDelayManager = new TimeDelayManager(scene, 1);
-    }
-
     /**
      * キャラクターの移動方向を返す
      * @param character キャラクター
@@ -36,10 +27,6 @@ export class BeamSearchImpl implements OperationService {
      * @returns キャラクターの移動方向
      */
     public getDirection(character: Character, tilemap: Tilemap): DirectionType {
-        if (!this.timeDelayManager.isDelayPassed())
-            return DirectionType.NONE;
-        this.timeDelayManager.update();
-
         const simulate: Simulate = new SimulateImpl(character, tilemap.mapState);
         return this.getBeamSearchDirection(simulate);
     }

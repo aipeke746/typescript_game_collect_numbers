@@ -1,5 +1,4 @@
 import { Character } from "../../../entity/character";
-import { TimeDelayManager } from "../../../manager/timeDelayManager";
 import { DirectionType } from "../../../type/directionType";
 import { OperationService } from "../operationService";
 
@@ -8,16 +7,11 @@ import { OperationService } from "../operationService";
  */
 export class ManualImpl implements OperationService {
     /**
-     * 時間遅延管理
-     */
-    private timeDelayManager: TimeDelayManager;
-    /**
      * キー入力
      */
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
     constructor(scene: Phaser.Scene) {
-        this.timeDelayManager = new TimeDelayManager(scene);
         if (scene.input.keyboard == null) throw new Error('keyboard is null');
         this.cursors = scene.input.keyboard.createCursorKeys();
     }
@@ -27,11 +21,7 @@ export class ManualImpl implements OperationService {
      * @returns キャラクターの移動方向
      */
     public getDirection(character: Character): DirectionType {
-        if (!this.timeDelayManager.isDelayPassed()) {
-            character.idle();
-            return DirectionType.NONE;
-        }
-
+        character.idle();
         return this.getManualDirection();
     }
 
@@ -50,9 +40,6 @@ export class ManualImpl implements OperationService {
         } else if (this.cursors.up.isDown) {
             direction = DirectionType.UP;
         }
-
-        if (direction !== DirectionType.NONE) 
-            this.timeDelayManager.update();
 
         return direction;
     }

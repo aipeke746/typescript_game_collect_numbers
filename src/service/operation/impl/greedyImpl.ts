@@ -1,32 +1,16 @@
 import { Character } from "../../../entity/character";
 import { Tilemap } from "../../../entity/tilemap";
-import { TimeDelayManager } from "../../../manager/timeDelayManager";
 import { DirectionType } from "../../../type/directionType";
 import { MapService } from "../../map/mapService";
 import { OperationService } from "../operationService";
-import { RandomImpl } from "./randomImpl";
 
 /**
  * 貪欲法を使ってキャラクターの移動方向を決定するクラス
  * 
  * 1.4方向のうち最もポイントが高い方向を選択する
- * 2.全て0ポイントの場合はランダムに選択する
+ * 2.最もポイントが高い方向が複数ある場合は、右、左、下、上の順で優先する
  */
 export class GreedyImpl implements OperationService {
-    /**
-     * 時間遅延管理
-     */
-    private timeDelayManager: TimeDelayManager;
-    /**
-     * ランダムで動かすクラス
-     */
-    private randomImpl: RandomImpl;
-
-    constructor(scene: Phaser.Scene) {
-        this.timeDelayManager = new TimeDelayManager(scene);
-        this.randomImpl = new RandomImpl(scene);
-    }
-
     /**
      * キャラクターの移動方向を返す
      * @param character キャラクター
@@ -34,14 +18,7 @@ export class GreedyImpl implements OperationService {
      * @returns キャラクターの移動方向
      */
     public getDirection(character: Character, tilemap: Tilemap): DirectionType {
-        if (!this.timeDelayManager.isDelayPassed())
-            return DirectionType.NONE;
-        this.timeDelayManager.update();
-
-        const direction = this.getGreedyDirection(character, tilemap);
-        return direction !== DirectionType.NONE
-            ? direction
-            : this.randomImpl.getDirection(character);
+        return this.getGreedyDirection(character, tilemap);
     }
 
     /**
@@ -52,7 +29,7 @@ export class GreedyImpl implements OperationService {
      */
     private getGreedyDirection(character: Character, tilemap: Tilemap): DirectionType {
         const directions: DirectionType[] = MapService.legalDirections(character);
-        let best: [number, DirectionType] = [0, DirectionType.NONE];
+        let best: [number, DirectionType] = [-1, DirectionType.NONE];
 
         for (let direction of directions) {
             const point = MapService.getPointByDirection(character, tilemap, direction);

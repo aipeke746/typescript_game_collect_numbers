@@ -10,7 +10,7 @@ export class TimeDelayManager {
     /**
      * 移動する間隔
      */
-    private move_delay: number;
+    private moveDelay: number;
 
     /**
      * 移動する間隔の時間を設定する
@@ -20,7 +20,7 @@ export class TimeDelayManager {
     constructor(scene: Phaser.Scene, delay: number = 0.7) {
         this.scene = scene;
         this.lastMoveTime = this.scene.time.now + 2000; // 開始時は　2秒後に移動する
-        this.move_delay = delay * 1000;
+        this.moveDelay = delay * 1000;
     }
 
     /**
@@ -28,7 +28,7 @@ export class TimeDelayManager {
      * @returns 移動する間隔が経過している場合はtrue
      */
     public isDelayPassed(): boolean {
-        return this.scene.time.now - this.lastMoveTime > this.move_delay;
+        return this.scene.time.now - this.lastMoveTime > this.moveDelay;
     }
 
     /**

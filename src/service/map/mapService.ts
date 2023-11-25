@@ -14,11 +14,11 @@ export class MapService {
      * @param direction 移動方向
      * @param tweenDuration キャラクターの移動にかかる時間
      */
-    public static advance(character: Character, tilemap: Tilemap, direction: DirectionType, tweenDuration: number = 500): void {
+    public static advance(character: Character, tilemap: Tilemap, direction: DirectionType): void {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(character, direction);
             character.startWalk(nextCoord, direction);
-            this.gridWalkTween(character, tilemap, nextCoord, tweenDuration, () => { tilemap.advance(nextCoord) });
+            this.gridWalkTween(character, tilemap, nextCoord, () => { tilemap.advance(nextCoord) });
         } catch {
             return;
         }
@@ -91,7 +91,7 @@ export class MapService {
      * @param nextCoord 移動先の座標
      * @param onComplete 移動後の処理
      */
-     private static gridWalkTween(character: Character, tilemap: Tilemap, nextCoord: Coord, tweenDuration: number, onComplete: () => void) {
+     private static gridWalkTween(character: Character, tilemap: Tilemap, nextCoord: Coord, onComplete: () => void) {
         const nowPos = character.getPos();
         const nextPos = tilemap.getWorldPos(nextCoord.x, nextCoord.y);
 
@@ -105,7 +105,7 @@ export class MapService {
                 getStart: () => nowPos.y,
                 getEnd: () => nextPos.y,
             },
-            duration: tweenDuration,
+            duration: 500,
             onComplete: () => {
                 tween.stop()
                 character.stopWalk();
