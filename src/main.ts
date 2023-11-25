@@ -1,9 +1,10 @@
 import Phaser from 'phaser';
 
-import { GameScene } from './scene/gameScene';
-import { TitleScene } from './scene/titleScene';
+import { CollectNumberScene } from './scene/game/collectNumberScene';
+import { SelectOperationScene } from './scene/title/selectOperationScene';
 import { MapState } from './entity/mapState';
 import { Params } from './params';
+import { SelectGameScene } from './scene/title/selectGameScene';
 
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -20,7 +21,7 @@ const config: Phaser.Types.Core.GameConfig = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [TitleScene, GameScene],
+    scene: [SelectGameScene, SelectOperationScene, CollectNumberScene],
 };
 
 new Phaser.Game(config);

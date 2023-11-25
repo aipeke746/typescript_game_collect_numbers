@@ -1,28 +1,28 @@
-import { BackButton } from "../entity/backButton";
-import { Character } from "../entity/character";
-import { MapState } from "../entity/mapState";
-import { Tilemap } from "../entity/tilemap";
-import { CharacterFactory } from "../factory/characterFactory";
-import { OperationFactory } from "../factory/operationFactory";
-import { BattleService } from "../service/battle/battleService";
-import { MapService } from "../service/map/mapService";
-import { OperationService } from "../service/operation/operationService";
-import { DirectionType } from "../type/directionType";
+import { BackButton } from "../../entity/backButton";
+import { Character } from "../../entity/character";
+import { MapState } from "../../entity/mapState";
+import { Tilemap } from "../../entity/tilemap";
+import { CharacterFactory } from "../../factory/characterFactory";
+import { OperationFactory } from "../../factory/operationFactory";
+import { BattleService } from "../../service/battle/battleService";
+import { MapService } from "../../service/map/mapService";
+import { OperationService } from "../../service/operation/operationService";
+import { DirectionType } from "../../type/directionType";
 
 /**
  * ゲーム画面のシーン
  */
-export class GameScene extends Phaser.Scene {
+export class CollectNumberScene extends Phaser.Scene {
     private character?: Character;
     private tilemap?: Tilemap;
-    private operation?: OperationService;
+    private operationType?: OperationService;
 
     constructor() {
-        super({ key: 'gameScene' });
+        super({ key: 'collectNumberScene' });
     }
 
     init(data: any) {
-        this.operation = OperationFactory.create(this, data.operationType);
+        this.operationType = OperationFactory.create(this, data.type);
     }
 
     preload() {
@@ -32,7 +32,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     create() {
-        new BackButton(this, 'titleScene');
+        new BackButton(this, 'selectGameScene');
         this.tilemap = new Tilemap(this, 'mapTiles');
         this.character = CharacterFactory.create(this, this.tilemap);
         // キャラクターの初期位置のポイントを0にする
@@ -41,7 +41,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     update() {
-        if (!this.character || !this.operation || !this.tilemap) return;
+        if (!this.character || !this.operationType || !this.tilemap) return;
         if (this.character.isWalking()) return;
 
         if (this.tilemap.mapState.isDone()) {
@@ -49,7 +49,7 @@ export class GameScene extends Phaser.Scene {
             BattleService.showResult(this, this.tilemap);
         } else {
             // ゲームプレイ中
-            const direction: DirectionType = this.operation.getDirection(this.character, this.tilemap);
+            const direction: DirectionType = this.operationType.getDirection(this.character, this.tilemap);
             if (direction === DirectionType.NONE) return;
 
             MapService.advance(this.character, this.tilemap, direction);
