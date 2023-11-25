@@ -26,7 +26,7 @@ export class CollectNumberAutoScene extends Phaser.Scene {
         this.operationType = OperationFactory.create(this, data.type);
     }
 
-    preaload() {
+    preload() {
         this.load.image('mapTiles', 'assets/images/numbers.png');
         this.load.spritesheet('character', 'assets/images/character.png', { frameWidth: 32, frameHeight: 32 })
         this.load.image('backButton', 'assets/images/backButton.png');
