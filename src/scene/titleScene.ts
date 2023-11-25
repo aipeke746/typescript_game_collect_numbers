@@ -12,6 +12,7 @@ export class TitleScene extends Phaser.Scene {
         this.createText(this.sys.canvas.width/2, this.sys.canvas.height/2-30, '手動でプレイする', OperationType.MANUAL);
         this.createText(this.sys.canvas.width/2, this.sys.canvas.height/2, 'ランダムでプレイする', OperationType.RANDOM);
         this.createText(this.sys.canvas.width/2, this.sys.canvas.height/2+30, '貪欲法でプレイする', OperationType.GREEDY);
+        this.createText(this.sys.canvas.width/2, this.sys.canvas.height/2+60, 'ビームサーチでプレイする', OperationType.BEAM_SEARCH);
     }
 
     /**

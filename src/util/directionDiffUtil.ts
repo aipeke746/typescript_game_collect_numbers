@@ -5,7 +5,7 @@ import { DirectionType } from "../type/directionType";
  */
 export class DirectionDiffUtil {
     /**
-     * 移動方向の差分
+     * 移動方向の差分　（右、左、下、上）
      */
     private static readonly DX: number[] = [1, -1, 0, 0];
     private static readonly DY: number[] = [0, 0, 1, -1];

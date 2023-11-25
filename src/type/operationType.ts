@@ -11,4 +11,8 @@ export enum OperationType {
      * 貪欲法
      */
     GREEDY,
+    /**
+     * ビームサーチ
+     */
+    BEAM_SEARCH,
 }

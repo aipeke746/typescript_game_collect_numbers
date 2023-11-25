@@ -1,23 +1,39 @@
 import { Character } from "../../entity/character";
-import { Coord } from "../../entity/coord";
+import { Coord } from "../../vo/coord";
 import { Tilemap } from "../../entity/tilemap";
 import { DirectionType } from "../../type/directionType";
+import { BeamSearchSimulateImpl } from "../simulate/impl/beamSearchSimulateImpl";
 
 export class MapService {
 
     /**
      * キャラクターをグリッド移動させる
      * タイルマップやポイントの更新も行う
-     * @param scene シーン
      * @param character キャラクター
      * @param tilemap タイルマップ
      * @param direction 移動方向
+     * @param tweenDuration キャラクターの移動にかかる時間
      */
-    public static advance(scene: Phaser.Scene, character: Character, tilemap: Tilemap, direction: DirectionType): void {
+    public static advance(character: Character, tilemap: Tilemap, direction: DirectionType, tweenDuration: number = 500): void {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(character, direction);
             character.startWalk(nextCoord, direction);
-            this.gridWalkTween(scene, character, tilemap, nextCoord, () => { tilemap.advance(nextCoord) });
+            this.gridWalkTween(character, tilemap, nextCoord, tweenDuration, () => { tilemap.advance(nextCoord) });
+        } catch {
+            return;
+        }
+    }
+
+    /**
+     * キャラクターをグリッド移動させる（シミュレーション用）
+     * @param simulation シミュレーション
+     * @param direction 移動方向
+     */
+    public static simulate(simulation: BeamSearchSimulateImpl, direction: DirectionType): void {
+        try {
+            const nextCoord: Coord = this.getMoveToCoordFromCharacter(simulation.character, direction);
+            simulation.character.startWalk(nextCoord, direction);
+            simulation.mapState.advance(nextCoord);
         } catch {
             return;
         }
@@ -70,17 +86,16 @@ export class MapService {
 
     /**
      *　キャラクターをグリッド移動させる
-     * @param scene シーン
      * @param character キャラクター
      * @param tilemap タイルマップ
      * @param nextCoord 移動先の座標
      * @param onComplete 移動後の処理
      */
-     private static gridWalkTween(scene: Phaser.Scene, character: Character, tilemap: Tilemap, nextCoord: Coord, onComplete: () => void) {
+     private static gridWalkTween(character: Character, tilemap: Tilemap, nextCoord: Coord, tweenDuration: number, onComplete: () => void) {
         const nowPos = character.getPos();
         const nextPos = tilemap.getWorldPos(nextCoord.x, nextCoord.y);
 
-        let tween: Phaser.Tweens.Tween = scene.add.tween({
+        let tween: Phaser.Tweens.Tween = character.getSprite().scene.add.tween({
             targets: [character.getSprite()],
             x: {
                 getStart: () => nowPos.x,
@@ -90,7 +105,7 @@ export class MapService {
                 getStart: () => nowPos.y,
                 getEnd: () => nextPos.y,
             },
-            duration: 500,
+            duration: tweenDuration,
             onComplete: () => {
                 tween.stop()
                 character.stopWalk();

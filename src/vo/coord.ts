@@ -26,7 +26,6 @@ export class Coord {
      * @param y y座標
      */
     constructor(x: integer, y: integer);
-
     constructor(coordOrX: Coord | number, y?: number) {
         if (coordOrX instanceof Coord) {
             this.x = coordOrX.x;

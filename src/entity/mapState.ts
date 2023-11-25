@@ -1,5 +1,5 @@
 import { Params } from "../params";
-import { Coord } from "./coord";
+import { Coord } from "../vo/coord";
 
 /**
  * マップの状態を表すクラス
@@ -61,6 +61,18 @@ export class MapState {
      */
     public getMain(): number[][] {
         return this.points;
+    }
+
+    /**
+     * マップの状態を複製して返す
+     * @returns マップの状態
+     */
+    public clone(): MapState {
+        const mapState: MapState = new MapState();
+        mapState.points = JSON.parse(JSON.stringify(this.points));
+        mapState.turn = this.turn;
+        mapState.score = this.score;
+        return mapState;
     }
 
     /**

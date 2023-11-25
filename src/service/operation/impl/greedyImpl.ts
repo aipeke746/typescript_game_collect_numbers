@@ -29,6 +29,7 @@ export class GreedyImpl implements OperationService {
 
     /**
      * キャラクターの移動方向を返す
+     * @param character キャラクター
      * @param tilemap タイルマップ
      * @returns キャラクターの移動方向
      */

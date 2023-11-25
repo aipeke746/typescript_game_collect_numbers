@@ -1,3 +1,4 @@
+import { BeamSearchImpl } from "../service/operation/impl/beamSearchImpl";
 import { GreedyImpl } from "../service/operation/impl/greedyImpl";
 import { ManualImpl } from "../service/operation/impl/manualImpl";
 import { RandomImpl } from "../service/operation/impl/randomImpl";
@@ -16,6 +17,10 @@ export class OperationFactory {
                 return new RandomImpl(scene);
             case OperationType.GREEDY:
                 return new GreedyImpl(scene);
+            case OperationType.BEAM_SEARCH:
+                return new BeamSearchImpl(scene);
+            default:
+                return new ManualImpl(scene);
         }
     }
 }

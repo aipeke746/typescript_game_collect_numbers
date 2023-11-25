@@ -2,6 +2,7 @@ import { BackButton } from "../entity/backButton";
 import { Character } from "../entity/character";
 import { MapState } from "../entity/mapState";
 import { Tilemap } from "../entity/tilemap";
+import { CharacterFactory } from "../factory/characterFactory";
 import { OperationFactory } from "../factory/operationFactory";
 import { BattleService } from "../service/battle/battleService";
 import { MapService } from "../service/map/mapService";
@@ -33,7 +34,7 @@ export class GameScene extends Phaser.Scene {
     create() {
         new BackButton(this, 'titleScene');
         this.tilemap = new Tilemap(this, 'mapTiles');
-        this.character = new Character(this, this.tilemap, "character");
+        this.character = CharacterFactory.create(this, this.tilemap);
         // キャラクターの初期位置のポイントを0にする
         this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_NUMBER);
         this.tilemap.advance(this.character.getCoord());
@@ -51,7 +52,7 @@ export class GameScene extends Phaser.Scene {
             const direction: DirectionType = this.operation.getDirection(this.character, this.tilemap);
             if (direction === DirectionType.NONE) return;
 
-            MapService.advance(this, this.character, this.tilemap, direction);
+            MapService.advance(this.character, this.tilemap, direction);
         }
     }
 }
