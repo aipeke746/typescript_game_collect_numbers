@@ -46,6 +46,7 @@ export class GreedyImpl implements OperationService {
 
     /**
      * 貪欲法を使ってキャラクターの移動方向を決定する
+     * @param character キャラクター
      * @param tilemap タイルマップ
      * @returns キャラクターの移動方向
      */

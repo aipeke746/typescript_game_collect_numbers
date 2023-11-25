@@ -19,7 +19,7 @@ export class RandomImpl implements OperationService {
 
     /**
      * キャラクターの移動方向を返す
-     * @param tilemap タイルマップ
+     * @param character キャラクター
      * @returns キャラクターの移動方向
      */
     public getDirection(character: Character): DirectionType {
@@ -32,7 +32,7 @@ export class RandomImpl implements OperationService {
 
     /**
      * ランダムにキャラクターの移動方向を返す
-     * @param tilemap タイルマップ
+     * @param character キャラクター
      * @returns ランダムに選択されたキャラクターの移動方向
      */
     private getRandomDirection(character: Character): DirectionType {

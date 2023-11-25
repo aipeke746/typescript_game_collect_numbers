@@ -28,7 +28,7 @@ export class SimulateImpl {
     /**
      * キャラクターとタイルマップを複製してシミュレーションを作成する
      * @param character キャラクター
-     * @param tilemap タイルマップ
+     * @param mapState マップ状態
      * @param firstDirection キャラクターの最初の移動方向
      * @param evaluatedScore シミュレーションの評価値
      */

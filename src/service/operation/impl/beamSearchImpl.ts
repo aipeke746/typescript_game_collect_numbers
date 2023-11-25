@@ -47,8 +47,6 @@ export class BeamSearchImpl implements OperationService {
     /**
      * ビームサーチ法を使ってキャラクターの移動方向を決定する
      * @param simulate シミュレーション
-     * @param beamWidth 探索幅
-     * @param beamDepth 探索深さ
      * @returns 移動方向
      */
     private getBeamSearchDirection(simulate: Simulate): DirectionType {
