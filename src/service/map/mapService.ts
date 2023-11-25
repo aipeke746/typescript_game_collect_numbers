@@ -2,7 +2,7 @@ import { Character } from "../../entity/character";
 import { Coord } from "../../vo/coord";
 import { Tilemap } from "../../entity/tilemap";
 import { DirectionType } from "../../type/directionType";
-import { BeamSearchSimulateImpl } from "../simulate/impl/beamSearchSimulateImpl";
+import { Simulate } from "../simulate/simulate";
 
 export class MapService {
 
@@ -26,14 +26,14 @@ export class MapService {
 
     /**
      * キャラクターをグリッド移動させる（シミュレーション用）
-     * @param simulation シミュレーション
+     * @param simulate シミュレーション
      * @param direction 移動方向
      */
-    public static simulate(simulation: BeamSearchSimulateImpl, direction: DirectionType): void {
+    public static simulate(simulate: Simulate, direction: DirectionType): void {
         try {
-            const nextCoord: Coord = this.getMoveToCoordFromCharacter(simulation.character, direction);
-            simulation.character.startWalk(nextCoord, direction);
-            simulation.mapState.advance(nextCoord);
+            const nextCoord: Coord = this.getMoveToCoordFromCharacter(simulate.character, direction);
+            simulate.character.startWalk(nextCoord, direction);
+            simulate.mapState.advance(nextCoord);
         } catch {
             return;
         }

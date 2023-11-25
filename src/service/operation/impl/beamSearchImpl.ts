@@ -1,11 +1,12 @@
 import { Character } from "../../../entity/character";
-import { BeamSearchSimulateImpl } from "../../simulate/impl/beamSearchSimulateImpl";
+import { SimulateImpl } from "../../simulate/impl/simulateImpl";
 import { Tilemap } from "../../../entity/tilemap";
 import { TimeDelayManager } from "../../../manager/timeDelayManager";
 import { Params } from "../../../params";
 import { DirectionType } from "../../../type/directionType";
 import { MapService } from "../../map/mapService";
 import { OperationService } from "../operationService";
+import { Simulate } from "../../simulate/simulate";
 
 /**
  * ビームサーチ法を使ってキャラクターの移動方向を決定するクラス
@@ -15,6 +16,14 @@ export class BeamSearchImpl implements OperationService {
      * 時間遅延管理
      */
     private timeDelayManager: TimeDelayManager;
+    /**
+     * 探索幅
+     */
+    private beamDepth: number = 2;
+    /**
+     * 探索深さ
+     */
+    private beamWidth: number = Params.END_TURN;
 
     constructor(scene: Phaser.Scene) {
         this.timeDelayManager = new TimeDelayManager(scene, 1);
@@ -31,28 +40,28 @@ export class BeamSearchImpl implements OperationService {
             return DirectionType.NONE;
         this.timeDelayManager.update();
 
-        const simulation: BeamSearchSimulateImpl = new BeamSearchSimulateImpl(character, tilemap.mapState);
-        return this.getBeamSearchDirection(simulation, 2, Params.END_TURN);
+        const simulate: Simulate = new SimulateImpl(character, tilemap.mapState);
+        return this.getBeamSearchDirection(simulate);
     }
 
     /**
      * ビームサーチ法を使ってキャラクターの移動方向を決定する
-     * @param simulation シミュレーション
+     * @param simulate シミュレーション
      * @param beamWidth 探索幅
      * @param beamDepth 探索深さ
      * @returns 移動方向
      */
-    private getBeamSearchDirection(simulation: BeamSearchSimulateImpl, beamWidth: number, beamDepth: number): DirectionType {
-        const nowBeam: BeamSearchSimulateImpl[] = [simulation];
-        let bestState: BeamSearchSimulateImpl = simulation;
+    private getBeamSearchDirection(simulate: Simulate): DirectionType {
+        const nowBeam: Simulate[] = [simulate];
+        let bestState: Simulate = simulate;
 
-        for (let t=0; t<beamDepth; t++) {
-            const nextBeam: BeamSearchSimulateImpl[] = [];
+        for (let t=0; t<this.beamDepth; t++) {
+            const nextBeam: Simulate[] = [];
 
-            for (let i=0; i<beamWidth; i++) {
+            for (let i=0; i<this.beamWidth; i++) {
                 if (nowBeam.length === 0) break;
                 const index = this.topBestIndex(nowBeam);
-                const nowState: BeamSearchSimulateImpl = nowBeam[index];
+                const nowState: Simulate = nowBeam[index];
                 nowBeam.splice(index, 1);
                 const legalDirections: DirectionType[] = MapService.legalDirections(nowState.character);
 
@@ -77,22 +86,22 @@ export class BeamSearchImpl implements OperationService {
 
     /**
      * シミュレーションの中で最も評価値が高いものを返す
-     * @param simulation シミュレーション
+     * @param simulate シミュレーション
      * @returns 最も評価値が高いシミュレーション
      */
-    private getBest(simulation: BeamSearchSimulateImpl[]): BeamSearchSimulateImpl {
-        return simulation[this.topBestIndex(simulation)];
+    private getBest(simulate: Simulate[]): Simulate {
+        return simulate[this.topBestIndex(simulate)];
     }
 
     /**
      * シミュレーションの中で最も評価値が高いもののインデックスを返す
-     * @param simulation シミュレーション
+     * @param simulate シミュレーション
      * @returns 最も評価値が高いシミュレーションのインデックス
      */
-    private topBestIndex(simulation: BeamSearchSimulateImpl[]): number {
+    private topBestIndex(simulate: Simulate[]): number {
         let index = 0;
-        for (const i in simulation) {
-            if (simulation[i].evaluatedScore > simulation[index].evaluatedScore) {
+        for (const i in simulate) {
+            if (simulate[i].evaluatedScore > simulate[index].evaluatedScore) {
                 index = Number(i);
             }
         }

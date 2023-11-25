@@ -7,7 +7,7 @@ import { MapState } from "../../../entity/mapState";
  * ビームサーチ法で使用するシミュレーション用のクラス
  * ゲームで使用するタイルマップとキャラクターの複製を持ち、
  */
-export class BeamSearchSimulateImpl {
+export class SimulateImpl {
     /**
      * キャラクター
      */
@@ -43,8 +43,8 @@ export class BeamSearchSimulateImpl {
      * シミュレーションを複製する
      * @returns シミュレーションの複製
      */
-    public clone(): BeamSearchSimulateImpl {
-        return new BeamSearchSimulateImpl(this.character, this.mapState, this.firstDirection, this.evaluatedScore);
+    public clone(): SimulateImpl {
+        return new SimulateImpl(this.character, this.mapState, this.firstDirection, this.evaluatedScore);
     }
 
     /**
