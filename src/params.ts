@@ -13,5 +13,5 @@ export class Params {
     /**
      * ターン終了のターン数
      */
-    public static readonly END_TURN: number = 3;
+    public static readonly END_TURN: number = 15;
 }

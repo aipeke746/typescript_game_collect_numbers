@@ -57,7 +57,6 @@ export class CollectNumberAutoScene extends Phaser.Scene {
         } else {
             // ゲームプレイ中
             for (let i=0; i<this.CHARACTER_NUM; i++) {
-                console.log(this.tilemap.mapState);
                 const direction: DirectionType = this.greedyOperation.getDirection(this.characters[i], this.tilemap);
                 if (direction === DirectionType.NONE) return;
 
