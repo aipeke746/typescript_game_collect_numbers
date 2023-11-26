@@ -1,6 +1,5 @@
 import { Character } from "../../../../entity/character";
 import { Tilemap } from "../../../../entity/tilemap";
-import { CharacterFactory } from "../../../../factory/characterFactory";
 import { Coord } from "../../../../vo/coord";
 import { OperatePositionService } from "../operatePositionService";
 
