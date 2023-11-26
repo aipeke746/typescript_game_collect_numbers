@@ -1,12 +1,12 @@
-import { Character } from "../../../entity/character";
-import { DirectionType } from "../../../type/directionType";
-import { MapService } from "../../map/mapService";
-import { OperationService } from "../operationService";
+import { Character } from "../../../../entity/character";
+import { DirectionType } from "../../../../type/directionType";
+import { MapService } from "../../../map/mapService";
+import { OperateDirectionService } from "../operateDirectionService";
 
 /**
- * キャラクターのランダムで動かすすクラス
+ * キャラクターをランダムで動かすクラス
  */
-export class RandomImpl implements OperationService {
+export class RandomImpl implements OperateDirectionService {
     /**
      * キャラクターの移動方向を返す
      * @param character キャラクター

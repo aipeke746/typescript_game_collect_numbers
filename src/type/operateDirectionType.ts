@@ -1,4 +1,4 @@
-export enum OperationType {
+export enum OperateDirectionType {
     /**
      * 手動
      */

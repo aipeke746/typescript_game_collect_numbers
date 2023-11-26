@@ -1,8 +1,8 @@
 import { Character } from "../entity/character";
 import { Tilemap } from "../entity/tilemap";
-import { Params } from "../params";
 import { WalkType } from "../type/walkType";
 import { Coord } from "../vo/coord";
+import { CoordFactory } from "./coordFactory";
 
 export class CharacterFactory {
     /**
@@ -20,24 +20,33 @@ export class CharacterFactory {
     ];
 
     /**
-     * キャラクターを生成する
+     * キャラクターをランダムな位置に生成する
      * @param scene シーン
      * @param tilemap タイルマップ
      * @param spriteName スプライト名
      * @returns キャラクター
      */
-    public static create(scene: Phaser.Scene, tilemap: Tilemap, spriteName: string = 'character'): Character {
-        const coord: Coord = this.randomCoord();
-        const pos = this.getWorldPos(tilemap, coord);
-        const sprite: Phaser.GameObjects.Sprite = scene.add.sprite(pos.x, pos.y, spriteName)
-            .setOrigin(0, 0)
-            .setDisplaySize(this.SIZE, this.SIZE);
-        
-        for (let anim of this.ANIMS) {
-            if (scene.anims.create(this.animConfig(scene, anim, spriteName)) === false) continue;
-            sprite.anims.play(anim.key);
-        }
-        sprite.anims.play('walk_front');
+    public static createForRandomPos(scene: Phaser.Scene, tilemap: Tilemap, spriteName: string = 'character'): Character {
+        const coord: Coord = CoordFactory.randomCoord();
+        const pos: Phaser.Math.Vector2 = tilemap.getWorldPos(coord);
+        const sprite: Phaser.GameObjects.Sprite = this.createSprite(scene, pos, spriteName);
+        this.playAnims(scene, sprite, spriteName);
+
+        return new Character(sprite, coord);
+    }
+
+    /**
+     * キャラクターを指定した位置に生成する
+     * @param scene シーン
+     * @param tilemap タイルマップ
+     * @param coord タイルマップの座標
+     * @param spriteName スプライト名
+     * @returns キャラクター
+     */
+    public static createForTargetPos(scene: Phaser.Scene, tilemap: Tilemap, coord: Coord, spriteName: string = 'character'): Character {
+        const pos: Phaser.Math.Vector2 = tilemap.getWorldPos(coord);
+        const sprite: Phaser.GameObjects.Sprite = this.createSprite(scene, pos, spriteName);
+        this.playAnims(scene, sprite, spriteName);
 
         return new Character(sprite, coord);
     }
@@ -52,21 +61,30 @@ export class CharacterFactory {
     }
 
     /**
-     * ランダムなタイルマップの座標を取得する
-     * @returns ランダムなタイルマップの座標
+     * キャラクターのスプライトを生成する
+     * @param scene シーン
+     * @param pos ワールドの座標
+     * @param spriteName スプライト名
+     * @returns キャラクターのスプライト
      */
-    private static randomCoord(): Coord {
-        const x = Phaser.Math.Between(0, Params.MAP_COLUMN - 1);
-        const y = Phaser.Math.Between(0, Params.MAP_ROW - 1);
-        return new Coord(x, y);
+    private static createSprite(scene: Phaser.Scene, pos: Phaser.Math.Vector2, spriteName: string): Phaser.GameObjects.Sprite {
+        return scene.add.sprite(pos.x, pos.y, spriteName)
+            .setOrigin(0, 0)
+            .setDisplaySize(this.SIZE, this.SIZE);
     }
 
     /**
-     * タイルマップの座標からキャラクターのワールド（画面）の座標を取得する
-     * @returns キャラクターのワールドの座標
+     * キャラクターのアニメーションを再生する
+     * @param scene シーン
+     * @param sprite スプライト
+     * @param spriteName スプライト名
      */
-    private static getWorldPos(tilemap: Tilemap, coord: Coord): Phaser.Math.Vector2 {
-        return tilemap.getWorldPos(coord.x, coord.y);
+    private static playAnims(scene: Phaser.Scene, sprite: Phaser.GameObjects.Sprite, spriteName: string): void {
+        for (let anim of this.ANIMS) {
+            if (scene.anims.create(this.animConfig(scene, anim, spriteName)) === false) continue;
+            sprite.anims.play(anim.key);
+        }
+        sprite.anims.play('walk_front');
     }
 
     /**

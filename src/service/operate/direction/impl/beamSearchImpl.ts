@@ -1,16 +1,16 @@
-import { Character } from "../../../entity/character";
-import { SimulateImpl } from "../../simulate/impl/simulateImpl";
-import { Tilemap } from "../../../entity/tilemap";
-import { Params } from "../../../params";
-import { DirectionType } from "../../../type/directionType";
-import { MapService } from "../../map/mapService";
-import { OperationService } from "../operationService";
-import { Simulate } from "../../simulate/simulate";
+import { Character } from "../../../../entity/character";
+import { SimulateImpl } from "../../../simulate/impl/simulateImpl";
+import { Tilemap } from "../../../../entity/tilemap";
+import { Params } from "../../../../params";
+import { DirectionType } from "../../../../type/directionType";
+import { MapService } from "../../../map/mapService";
+import { OperateDirectionService } from "../operateDirectionService";
+import { Simulate } from "../../../simulate/simulate";
 
 /**
  * ビームサーチ法を使ってキャラクターの移動方向を決定するクラス
  */
-export class BeamSearchImpl implements OperationService {
+export class BeamSearchImpl implements OperateDirectionService {
     /**
      * 探索幅
      */

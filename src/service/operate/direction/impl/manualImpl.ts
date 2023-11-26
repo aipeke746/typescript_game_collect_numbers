@@ -1,11 +1,11 @@
-import { Character } from "../../../entity/character";
-import { DirectionType } from "../../../type/directionType";
-import { OperationService } from "../operationService";
+import { Character } from "../../../../entity/character";
+import { DirectionType } from "../../../../type/directionType";
+import { OperateDirectionService } from "../operateDirectionService";
 
 /**
  * キャラクターを手動で動かすクラス
  */
-export class ManualImpl implements OperationService {
+export class ManualImpl implements OperateDirectionService {
     /**
      * キー入力
      */

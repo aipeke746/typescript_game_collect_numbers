@@ -52,22 +52,20 @@ export class Tilemap {
 
     /**
      * タイルマップの座標からワールド（画面）の座標を取得する
-     * @param wx タイルマップのx座標
-     * @param wy タイルマップのy座標
+     * @params pos ワールドの座標
      * @returns ワールドの座標
      */
-    public getTilePos(wx: number, wy: number): Phaser.Math.Vector2 {
-        return this.layer.worldToTileXY(wx, wy);
+    public getTilePos(pos: Phaser.Math.Vector2): Phaser.Math.Vector2 {
+        return this.layer.worldToTileXY(pos.x, pos.y);
     }
 
     /**
      * ワールド（画面）の座標からタイルマップの座標を取得する
-     * @param tx ワールドのｘ座標
-     * @param ty ワールドのy座標
+     * @params coord タイルマップの座標
      * @returns タイルマップの座標
      */
-    public getWorldPos(tx: number, ty: number): Phaser.Math.Vector2 {
-        return this.layer.tileToWorldXY(tx, ty);
+    public getWorldPos(coord: Coord): Phaser.Math.Vector2 {
+        return this.layer.tileToWorldXY(coord.x, coord.y);
     }
 
     /**

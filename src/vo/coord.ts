@@ -17,23 +17,11 @@ export class Coord {
 
     /**
      * タイルマップの座標を生成する（マップ外の座標の場合は例外を投げる）
-     * @param coord タイルマップの座標
+     * @param pos ワールドの座標
      */
-    constructor(coord: Coord);
-    /**
-     * タイルマップの座標を生成する（マップ外の座標の場合は例外を投げる）
-     * @param x x座標
-     * @param y y座標
-     */
-    constructor(x: integer, y: integer);
-    constructor(coordOrX: Coord | number, y?: number) {
-        if (coordOrX instanceof Coord) {
-            this.x = coordOrX.x;
-            this.y = coordOrX.y;
-        } else {
-            this.x = coordOrX;
-            this.y = y!;
-        }
+    constructor(pos: Phaser.Math.Vector2) {
+        this.x = pos.x;
+        this.y = pos.y;
 
         if ((this.x < 0 || Params.MAP_COLUMN <= this.x) || (this.y < 0 || Params.MAP_ROW <= this.y)) {
             throw new Error('invalid coord');
@@ -47,7 +35,8 @@ export class Coord {
      */
     public getMoveToCoord(direction: DirectionType): Coord {
         const [dx, dy] = DirectionDiffUtil.get(direction);
-        return new Coord(this.x + dx, this.y + dy);
+        const pos = new Phaser.Math.Vector2(this.x + dx, this.y + dy)
+        return new Coord(pos);
     }
 
     /**

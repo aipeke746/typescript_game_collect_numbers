@@ -3,11 +3,11 @@ import { Character } from "../../entity/character";
 import { MapState } from "../../entity/mapState";
 import { Tilemap } from "../../entity/tilemap";
 import { CharacterFactory } from "../../factory/characterFactory";
-import { OperationFactory } from "../../factory/operationFactory";
+import { OperateDirectionFactory } from "../../factory/operateDirectionFactory";
 import { TimeDelayManager } from "../../manager/timeDelayManager";
 import { BattleService } from "../../service/battle/battleService";
 import { MapService } from "../../service/map/mapService";
-import { OperationService } from "../../service/operation/operationService";
+import { OperateDirectionService } from "../../service/operate/direction/operateDirectionService";
 import { DirectionType } from "../../type/directionType";
 
 /**
@@ -16,7 +16,7 @@ import { DirectionType } from "../../type/directionType";
 export class CollectNumberScene extends Phaser.Scene {
     private character?: Character;
     private tilemap?: Tilemap;
-    private operationType?: OperationService;
+    private operationType?: OperateDirectionService;
     private timeDelayManager?: TimeDelayManager;
 
     constructor() {
@@ -24,7 +24,7 @@ export class CollectNumberScene extends Phaser.Scene {
     }
 
     init(data: any) {
-        this.operationType = OperationFactory.create(this, data.type);
+        this.operationType = OperateDirectionFactory.create(this, data.type);
     }
 
     preload() {
@@ -37,7 +37,7 @@ export class CollectNumberScene extends Phaser.Scene {
         new BackButton(this, 'selectGameScene');
         this.timeDelayManager = new TimeDelayManager(this);
         this.tilemap = new Tilemap(this, 'mapTiles');
-        this.character = CharacterFactory.create(this, this.tilemap);
+        this.character = CharacterFactory.createForRandomPos(this, this.tilemap);
         // キャラクターの初期位置のポイントを0にする
         this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_NUMBER);
         this.tilemap.advance(this.character.getCoord());

@@ -93,7 +93,7 @@ export class MapService {
      */
      private static gridWalkTween(character: Character, tilemap: Tilemap, nextCoord: Coord, onComplete: () => void) {
         const nowPos = character.getPos();
-        const nextPos = tilemap.getWorldPos(nextCoord.x, nextCoord.y);
+        const nextPos = tilemap.getWorldPos(nextCoord);
 
         let tween: Phaser.Tweens.Tween = character.getSprite().scene.add.tween({
             targets: [character.getSprite()],

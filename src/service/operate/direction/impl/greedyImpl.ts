@@ -1,8 +1,8 @@
-import { Character } from "../../../entity/character";
-import { Tilemap } from "../../../entity/tilemap";
-import { DirectionType } from "../../../type/directionType";
-import { MapService } from "../../map/mapService";
-import { OperationService } from "../operationService";
+import { Character } from "../../../../entity/character";
+import { Tilemap } from "../../../../entity/tilemap";
+import { DirectionType } from "../../../../type/directionType";
+import { MapService } from "../../../map/mapService";
+import { OperateDirectionService } from "../operateDirectionService";
 
 /**
  * 貪欲法を使ってキャラクターの移動方向を決定するクラス
@@ -10,7 +10,7 @@ import { OperationService } from "../operationService";
  * 1.4方向のうち最もポイントが高い方向を選択する
  * 2.最もポイントが高い方向が複数ある場合は、右、左、下、上の順で優先する
  */
-export class GreedyImpl implements OperationService {
+export class GreedyImpl implements OperateDirectionService {
     /**
      * キャラクターの移動方向を返す
      * @param character キャラクター

@@ -38,7 +38,8 @@ export class MapState {
     constructor() {
         for (let y=0; y<Params.MAP_ROW; y++) {
             for (let x=0; x<Params.MAP_COLUMN; x++) {
-                const coord = new Coord(x, y);
+                const pos = new Phaser.Math.Vector2(x, y);
+                const coord = new Coord(pos);
                 this.setPoint(coord, Math.floor(Math.random() * MapState.ALL_NUMBERS_COUNT));
             }
         }
