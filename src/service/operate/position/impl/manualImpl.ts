@@ -10,10 +10,6 @@ import { OperatePositionService } from "../operatePositionService";
  */
 export class ManualImpl extends OperatePositionCommonService implements OperatePositionService {
     /**
-     * シーン
-     */
-    private scene: Phaser.Scene;
-    /**
      * ポインター
      */
     private pointer: Phaser.Input.Pointer;
@@ -23,8 +19,7 @@ export class ManualImpl extends OperatePositionCommonService implements OperateP
     private characters: Character[] = [];
 
     constructor(scene: Phaser.Scene) {
-        super();
-        this.scene = scene;
+        super(scene);
         this.pointer = scene.input.activePointer;
     }
 

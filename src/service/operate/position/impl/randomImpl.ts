@@ -11,14 +11,9 @@ import { OperatePositionService } from "../operatePositionService";
  * キャラクターの初期位置をランダムにセットしてキャラクターを生成するクラス
  */
 export class RandomImpl extends OperatePositionCommonService implements OperatePositionService {
-    /**
-     * シーン
-     */
-    private scene: Phaser.Scene;
 
     constructor(scene: Phaser.Scene) {
-        super();
-        this.scene = scene;
+        super(scene);
     }
 
     /**

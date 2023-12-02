@@ -1,7 +1,5 @@
 import { Character } from "../../../../entity/character";
 import { Tilemap } from "../../../../entity/tilemap";
-import { CharacterFactory } from "../../../../factory/characterFactory";
-import { CoordFactory } from "../../../../factory/coordFactory";
 import { Params } from "../../../../params";
 import { Coord } from "../../../../vo/coord";
 import { MapService } from "../../../map/mapService";
@@ -12,10 +10,6 @@ import { OperatePositionService } from "../operatePositionService";
 import { RandomImpl } from "./randomImpl";
 
 export class AnnelingImpl extends OperatePositionCommonService implements OperatePositionService {
-    /**
-     * シーン
-     */
-    private scene: Phaser.Scene;
     /**
      * ランダムにキャラクターの初期位置をセットするクラス
      */
@@ -45,8 +39,7 @@ export class AnnelingImpl extends OperatePositionCommonService implements Operat
     private readonly INF: number = 1000000000;
 
     constructor(scene: Phaser.Scene) {
-        super();
-        this.scene = scene;
+        super(scene);
         this.randomImpl = new RandomImpl(scene);
     }
 
@@ -109,51 +102,7 @@ export class AnnelingImpl extends OperatePositionCommonService implements Operat
      * @param characters キャラクター
      * @returns キャラクター
      */
-    private createRandomCharacters(tilemap: Tilemap, characters: Character[] = []): Character[] {
+    protected createRandomCharacters( tilemap: Tilemap, characters: Character[] = []): Character[] {
         return this.randomImpl.create(tilemap, characters);
-    }
-
-    /**
-     * ベストスコアの座標から指定の座標を変更したキャラクターを生成する
-     * @param tilemap タイルマップ
-     * @param bestCoords べストな座標
-     * @param targetIndex 座標を変更する配列のインデックス
-     * @returns キャラクター
-     */
-    private createRandomCharactersByCoords(tilemap: Tilemap, bestCoords: Coord[], targetIndex: number): Character[] {
-        const nextCoords: Coord[] = this.createRandomCoord(bestCoords, targetIndex);
-        return this.createCharactersByCoords(tilemap, nextCoords);
-    }
-
-    /**
-     * 指定の座標を変更する
-     * @param coords 座標
-     * @param targetIndex 特定の座標のインデックス
-     * @returns 座標
-     */
-    private createRandomCoord(coords: Coord[], targetIndex: number): Coord[] {
-        let nextCoord: Coord[] = [...coords];
-        let randomCoord: Coord;
-
-        do {
-            randomCoord = CoordFactory.randomCoord();
-        } while (nextCoord.includes(randomCoord));
-
-        nextCoord[targetIndex] = randomCoord;
-        return nextCoord;
-    }
-
-    /**
-     * 座標からキャラクターを生成する
-     * @param tilemap タイルマップ
-     * @param coords 座標
-     * @returns キャラクター
-     */
-    private createCharactersByCoords(tilemap: Tilemap, coords: Coord[]): Character[] {
-        let characters: Character[] = [];
-        for (const coord of coords) {
-            characters.push(CharacterFactory.createForTargetPos(this.scene, tilemap, coord));
-        }
-        return characters;
     }
 }
