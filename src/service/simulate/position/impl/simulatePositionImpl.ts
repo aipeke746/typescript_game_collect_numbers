@@ -25,7 +25,7 @@ export class SimulatePositionImpl implements SimulatePositionService {
      */
     public firstCoords: Coord[];
 
-    constructor(characters: Character[], mapState: MapState,  evaluatedScore: number = 0) {
+    constructor(characters: Character[], mapState: MapState, evaluatedScore: number = 0) {
         this.characters = characters;
         this.firstCoords = this.getCoords();
         this.mapState = mapState.clone();
@@ -49,7 +49,9 @@ export class SimulatePositionImpl implements SimulatePositionService {
      * シミュレーションを評価する
      */
     public evaluate(): void {
-        this.evaluatedScore = this.mapState.getScore();
+        this.evaluatedScore = this.characters.reduce(
+            (scoreSum, character) => scoreSum + character.getScore(), 0
+        );
     }
 
     /**

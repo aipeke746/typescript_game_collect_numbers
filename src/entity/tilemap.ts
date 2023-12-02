@@ -1,5 +1,6 @@
 import { Params } from '../params';
 import { Coord } from '../vo/coord';
+import { Character } from './character';
 import { MapState } from './mapState';
 
 /**
@@ -34,8 +35,8 @@ export class Tilemap {
      * キャラクターが移動した時のマップ情報とタイルマップの更新を行う
      * @param direction 移動方向
      */
-    public advance(nextCoord: Coord): void {
-        this.mapState.advance(nextCoord);
+    public advance(character: Character, nextCoord: Coord): void {
+        this.mapState.advance(character, nextCoord);
         this.update();
     }
 

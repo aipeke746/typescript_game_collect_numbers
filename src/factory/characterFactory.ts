@@ -57,7 +57,7 @@ export class CharacterFactory {
      * @returns 複製したキャラクター
      */
     public static clone(character: Character): Character {
-        return new Character(character.getSprite(), character.getCoord(), character.isWalking());
+        return new Character(character.getSprite(), character.getCoord(), character.getScore(), character.isWalking());
     }
 
     /**

@@ -52,7 +52,7 @@ export class SimulateDirectionImpl implements SimulateDirectionService {
      * シミュレーションを評価する
      */
     public evaluate(): void {
-        this.evaluatedScore = this.mapState.getScore();
+        this.evaluatedScore = this.character.getScore();
     }
 
     /**

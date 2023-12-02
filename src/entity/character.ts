@@ -16,6 +16,10 @@ export class Character {
      * キャラクターが歩いているかどうか
      */
     private walking: boolean = false;
+    /**
+     * ゲームのスコア
+     */
+    private score: number = 0;
 
     /**
      * タイルマップのランダムな位置にキャラクターを生成する
@@ -23,10 +27,11 @@ export class Character {
      * @param coord タイルマップの座標
      * @param walking キャラクターが歩いているかどうか
      */
-    public constructor(sprite: Phaser.GameObjects.Sprite, coord: Coord, walking: boolean = false) {
+    public constructor(sprite: Phaser.GameObjects.Sprite, coord: Coord, score: number = 0, walking: boolean = false) {
         this.sprite = sprite;
         this.coord = coord;
         this.walking = walking;
+        this.score = score;
     }
 
     /**
@@ -51,6 +56,22 @@ export class Character {
      */
     public getPos(): Phaser.Math.Vector2 {
         return new Phaser.Math.Vector2(this.sprite.x, this.sprite.y);
+    }
+
+    /**
+     * スコアを取得する
+     * @returns スコア
+     */
+    public getScore(): number {
+        return this.score;
+    }
+
+    /**
+     * ポイントをスコアに加算する
+     * @param point ポイント
+     */
+    public addPoint(point: number): void {
+        this.score += point;
     }
 
     /**

@@ -40,7 +40,8 @@ export class CollectNumberScene extends Phaser.Scene {
         this.character = CharacterFactory.createForRandomPos(this, this.tilemap);
         // キャラクターの初期位置のポイントを0にする
         this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_POINT);
-        this.tilemap.advance(this.character.getCoord());
+        this.tilemap.advance(this.character, this.character.getCoord());
+        this.tilemap.mapState.resetTurn();
     }
 
     update() {
@@ -50,7 +51,7 @@ export class CollectNumberScene extends Phaser.Scene {
 
         if (this.tilemap.mapState.isDone()) {
             // ゲーム終了
-            BattleService.showResult(this, this.tilemap);
+            BattleService.showResult(this, this.character);
         } else {
             // ゲームプレイ中
             const direction: DirectionType = this.operationType.getDirection(this.character, this.tilemap.mapState);

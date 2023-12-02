@@ -1,5 +1,6 @@
 import { Params } from "../params";
 import { Coord } from "../vo/coord";
+import { Character } from "./character";
 
 /**
  * マップの状態を表すクラス
@@ -27,10 +28,6 @@ export class MapState {
      * ゲーム開始時にプレイヤー位置の初期化で1ターン使用する
      */
     private turn: number = 0;
-    /**
-     * ゲームのスコア
-     */
-    private score: number = 0;
 
     /**
      * マップ上にランダムな数字を設定してマップの状態を生成する
@@ -49,8 +46,8 @@ export class MapState {
      * キャラクターが移動した時の処理を行う
      * @param nextCoord 移動先の座標
      */
-    public advance(nextCoord: Coord): void {
-        this.score += this.getPoint(nextCoord);
+    public advance(character: Character, nextCoord: Coord): void {
+        character.addPoint(this.getPoint(nextCoord));
         this.setPoint(nextCoord, MapState.ZERO_POINT);
         this.turn++;
     }
@@ -72,7 +69,6 @@ export class MapState {
         const mapState: MapState = new MapState();
         mapState.points = JSON.parse(JSON.stringify(this.points));
         mapState.turn = this.turn;
-        mapState.score = this.score;
         return mapState;
     }
 
@@ -89,14 +85,6 @@ export class MapState {
      */
     public isDone(): boolean {
         return this.turn >= Params.END_TURN;
-    }
-
-    /**
-     * ゲームのスコアを返す
-     * @returns ゲームのスコア
-     */
-    public getScore(): number {
-        return this.score;
     }
 
     /**

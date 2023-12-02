@@ -53,7 +53,7 @@ export class CollectNumberAutoScene extends Phaser.Scene {
 
         if (this.tilemap.mapState.isDone()) {
             // ゲーム終了
-            BattleService.showResult(this, this.tilemap);
+            BattleService.showResult2(this, this.characters);
         } else {
             // ゲームプレイ中
             for (let i=0; i<Params.CHARACTER_NUM; i++) {

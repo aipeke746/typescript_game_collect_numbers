@@ -22,7 +22,7 @@ export class MapService {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(character, direction);
             character.startWalk(nextCoord, direction);
-            this.gridWalkTween(character, tilemap, nextCoord, () => { tilemap.advance(nextCoord) });
+            this.gridWalkTween(character, tilemap, nextCoord, () => { tilemap.advance(character, nextCoord) });
         } catch {
             return;
         }
@@ -37,7 +37,7 @@ export class MapService {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(simulate.character, direction);
             simulate.character.startWalk(nextCoord, direction);
-            simulate.mapState.advance(nextCoord);
+            simulate.mapState.advance(simulate.character, nextCoord);
         } catch {
             return;
         }
@@ -59,7 +59,7 @@ export class MapService {
                 return { character, nextCoord, direction };
             }).forEach(({ character, nextCoord, direction }) => {
                 character.startWalk(nextCoord, direction);
-                simulate.mapState.advance(nextCoord);
+                simulate.mapState.advance(character, nextCoord);
             });
         } catch {
             return;

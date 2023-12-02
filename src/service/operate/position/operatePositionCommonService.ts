@@ -25,7 +25,7 @@ export class OperatePositionCommonService {
      */
     protected initializations(tilemap:Tilemap, characters: Character[]): void {
         for (const character of characters) {
-            this.initialization(tilemap, character.getCoord());
+            this.initialization(tilemap, character);
         }
     }
 
@@ -34,9 +34,10 @@ export class OperatePositionCommonService {
      * @param tilemap タイルマップ
      * @param coord タイルマップの座標
      */
-    protected initialization(tilemap: Tilemap, coord: Coord): void {
+    protected initialization(tilemap: Tilemap, character: Character): void {
+        const coord: Coord = character.getCoord();
         tilemap.mapState.setPoint(coord, MapState.ZERO_POINT);
-        tilemap.advance(coord);
+        tilemap.advance(character, coord);
         tilemap.mapState.resetTurn();
     }
 
