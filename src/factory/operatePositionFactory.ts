@@ -1,3 +1,4 @@
+import { AnnelingImpl as AnnealingImpl } from "../service/operate/position/impl/annealingImpl";
 import { HillClimbImpl } from "../service/operate/position/impl/hillClimbImpl";
 import { ManualImpl } from "../service/operate/position/impl/manualImpl";
 import { RandomImpl } from "../service/operate/position/impl/randomImpl";
@@ -15,6 +16,8 @@ export class OperatePositionFactory {
                 return new RandomImpl(scene);
             case OperatePositionType.HILL_CLIMB:
                 return new HillClimbImpl(scene);
+            case OperatePositionType.ANNEALING:
+                return new AnnealingImpl(scene);
             default:
                 throw new Error(`Not implemented operation type: ${operationType}`);
         }

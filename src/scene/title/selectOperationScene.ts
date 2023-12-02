@@ -26,6 +26,7 @@ export class SelectOperationScene extends Phaser.Scene {
             this.createTextToCollectNumberAutoScene(this.sys.canvas.width/2, this.sys.canvas.height/2-30, '手動でプレイする', OperatePositionType.MANUAL);
             this.createTextToCollectNumberAutoScene(this.sys.canvas.width/2, this.sys.canvas.height/2, 'ランダムでプレイする', OperatePositionType.RANDOM);
             this.createTextToCollectNumberAutoScene(this.sys.canvas.width/2, this.sys.canvas.height/2+30, '山登り法でプレイする', OperatePositionType.HILL_CLIMB);
+            this.createTextToCollectNumberAutoScene(this.sys.canvas.width/2, this.sys.canvas.height/2+60, '焼きなまし法でプレイする', OperatePositionType.ANNEALING);
         }
     }
 

@@ -11,4 +11,8 @@ export enum OperatePositionType {
      * 山登り法
      */
     HILL_CLIMB,
+    /**
+     * 焼きなまし法
+     */
+    ANNEALING,
 }

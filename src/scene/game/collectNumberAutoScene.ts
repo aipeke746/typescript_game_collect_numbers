@@ -41,9 +41,6 @@ export class CollectNumberAutoScene extends Phaser.Scene {
 
         if (!this.operationType || !this.tilemap) return;
         this.characters = this.operationType.getCharacters(this.tilemap);
-        for (const character of this.characters) {
-            console.log("ok: ", character.getCoord());
-        }
     }
 
     update() {
