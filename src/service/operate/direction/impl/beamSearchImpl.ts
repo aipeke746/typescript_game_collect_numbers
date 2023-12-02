@@ -1,11 +1,11 @@
 import { Character } from "../../../../entity/character";
-import { SimulateImpl } from "../../../simulate/impl/simulateImpl";
-import { Tilemap } from "../../../../entity/tilemap";
+import { SimulateDirectionImpl } from "../../../simulate/direction/impl/simulateDirectionImpl";
 import { Params } from "../../../../params";
 import { DirectionType } from "../../../../type/directionType";
 import { MapService } from "../../../map/mapService";
 import { OperateDirectionService } from "../operateDirectionService";
-import { Simulate } from "../../../simulate/simulate";
+import { SimulateDirectionService } from "../../../simulate/direction/simulateDirectionService";
+import { MapState } from "../../../../entity/mapState";
 
 /**
  * ビームサーチ法を使ってキャラクターの移動方向を決定するクラス
@@ -23,11 +23,11 @@ export class BeamSearchImpl implements OperateDirectionService {
     /**
      * キャラクターの移動方向を返す
      * @param character キャラクター
-     * @param tilemap タイルマップ
+     * @param mapState タイルマップ
      * @returns キャラクターの移動方向
      */
-    public getDirection(character: Character, tilemap: Tilemap): DirectionType {
-        const simulate: Simulate = new SimulateImpl(character, tilemap.mapState);
+    public getDirection(character: Character, mapState: MapState): DirectionType {
+        const simulate: SimulateDirectionService = new SimulateDirectionImpl(character, mapState);
         return this.getBeamSearchDirection(simulate);
     }
 
@@ -36,17 +36,17 @@ export class BeamSearchImpl implements OperateDirectionService {
      * @param simulate シミュレーション
      * @returns 移動方向
      */
-    private getBeamSearchDirection(simulate: Simulate): DirectionType {
-        const nowBeam: Simulate[] = [simulate];
-        let bestState: Simulate = simulate;
+    private getBeamSearchDirection(simulate: SimulateDirectionService): DirectionType {
+        const nowBeam: SimulateDirectionService[] = [simulate];
+        let bestState: SimulateDirectionService = simulate;
 
         for (let t=0; t<this.beamDepth; t++) {
-            const nextBeam: Simulate[] = [];
+            const nextBeam: SimulateDirectionService[] = [];
 
             for (let i=0; i<this.beamWidth; i++) {
                 if (nowBeam.length === 0) break;
                 const index = this.topBestIndex(nowBeam);
-                const nowState: Simulate = nowBeam[index];
+                const nowState: SimulateDirectionService = nowBeam[index];
                 nowBeam.splice(index, 1);
                 const legalDirections: DirectionType[] = MapService.legalDirections(nowState.character);
 
@@ -74,7 +74,7 @@ export class BeamSearchImpl implements OperateDirectionService {
      * @param simulate シミュレーション
      * @returns 最も評価値が高いシミュレーション
      */
-    private getBest(simulate: Simulate[]): Simulate {
+    private getBest(simulate: SimulateDirectionService[]): SimulateDirectionService {
         return simulate[this.topBestIndex(simulate)];
     }
 
@@ -83,7 +83,7 @@ export class BeamSearchImpl implements OperateDirectionService {
      * @param simulate シミュレーション
      * @returns 最も評価値が高いシミュレーションのインデックス
      */
-    private topBestIndex(simulate: Simulate[]): number {
+    private topBestIndex(simulate: SimulateDirectionService[]): number {
         let index = 0;
         for (const i in simulate) {
             if (simulate[i].evaluatedScore > simulate[index].evaluatedScore) {

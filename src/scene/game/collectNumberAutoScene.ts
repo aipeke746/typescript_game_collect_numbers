@@ -10,9 +10,9 @@ import { OperateDirectionService } from "../../service/operate/direction/operate
 import { OperatePositionService } from "../../service/operate/position/operatePositionService";
 import { DirectionType } from "../../type/directionType";
 import { OperateDirectionType } from "../../type/operateDirectionType";
+import { Params } from '../../params';
 
 export class CollectNumberAutoScene extends Phaser.Scene {
-    private readonly CHARACTER_NUM: number = 3;
     private characters?: Character[];
     private tilemap?: Tilemap;
     private operationType?: OperatePositionService;
@@ -41,13 +41,16 @@ export class CollectNumberAutoScene extends Phaser.Scene {
 
         if (!this.operationType || !this.tilemap) return;
         this.characters = this.operationType.getCharacters(this.tilemap);
+        for (const character of this.characters) {
+            console.log("ok: ", character.getCoord());
+        }
     }
 
     update() {
         if (!this.characters || !this.operationType || !this.tilemap || !this.greedyOperation || !this.timeDelayManager) return;
         if (!this.timeDelayManager.isDelayPassed()) return;
-        if (this.characters.length < this.CHARACTER_NUM) return;
-        for (let i=0; i<this.CHARACTER_NUM; i++) {
+        if (this.characters.length < Params.CHARACTER_NUM) return;
+        for (let i=0; i<Params.CHARACTER_NUM; i++) {
             if (this.characters[i].isWalking()) return;
         }
 
@@ -56,8 +59,8 @@ export class CollectNumberAutoScene extends Phaser.Scene {
             BattleService.showResult(this, this.tilemap);
         } else {
             // ゲームプレイ中
-            for (let i=0; i<this.CHARACTER_NUM; i++) {
-                const direction: DirectionType = this.greedyOperation.getDirection(this.characters[i], this.tilemap);
+            for (let i=0; i<Params.CHARACTER_NUM; i++) {
+                const direction: DirectionType = this.greedyOperation.getDirection(this.characters[i], this.tilemap.mapState);
                 if (direction === DirectionType.NONE) return;
 
                 this.timeDelayManager.update();

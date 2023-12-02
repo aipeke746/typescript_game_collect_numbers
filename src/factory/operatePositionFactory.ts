@@ -1,3 +1,4 @@
+import { HillClimbImpl } from "../service/operate/position/impl/hillClimbImpl";
 import { ManualImpl } from "../service/operate/position/impl/manualImpl";
 import { RandomImpl } from "../service/operate/position/impl/randomImpl";
 import { OperatePositionType } from "../type/operatePositionType";
@@ -12,6 +13,8 @@ export class OperatePositionFactory {
                 return new ManualImpl(scene);
             case OperatePositionType.RANDOM:
                 return new RandomImpl(scene);
+            case OperatePositionType.HILL_CLIMB:
+                return new HillClimbImpl(scene);
             default:
                 throw new Error(`Not implemented operation type: ${operationType}`);
         }

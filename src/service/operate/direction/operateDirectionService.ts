@@ -1,5 +1,5 @@
 import { Character } from "../../../entity/character";
-import { Tilemap } from "../../../entity/tilemap";
+import { MapState } from "../../../entity/mapState";
 import { DirectionType } from "../../../type/directionType";
 
 /**
@@ -12,5 +12,5 @@ export interface OperateDirectionService {
      * @param tilemap タイルマップ
      * @returns キャラクターの移動方向
      */
-    getDirection(characters: Character, tilemap: Tilemap): DirectionType;
+    getDirection(characters: Character, mapState: MapState): DirectionType;
 }

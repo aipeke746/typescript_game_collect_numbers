@@ -1,13 +1,14 @@
-import { CharacterFactory } from "../../../factory/characterFactory";
-import { DirectionType } from "../../../type/directionType";
-import { Character } from "../../../entity/character";
-import { MapState } from "../../../entity/mapState";
+import { CharacterFactory } from "../../../../factory/characterFactory";
+import { DirectionType } from "../../../../type/directionType";
+import { Character } from "../../../../entity/character";
+import { MapState } from "../../../../entity/mapState";
+import { SimulateDirectionService } from "../simulateDirectionService";
 
 /**
  * ビームサーチ法で使用するシミュレーション用のクラス
  * ゲームで使用するタイルマップとキャラクターの複製を持ち、
  */
-export class SimulateImpl {
+export class SimulateDirectionImpl implements SimulateDirectionService {
     /**
      * キャラクター
      */
@@ -43,8 +44,8 @@ export class SimulateImpl {
      * シミュレーションを複製する
      * @returns シミュレーションの複製
      */
-    public clone(): SimulateImpl {
-        return new SimulateImpl(this.character, this.mapState, this.firstDirection, this.evaluatedScore);
+    public clone(): SimulateDirectionImpl {
+        return new SimulateDirectionImpl(this.character, this.mapState, this.firstDirection, this.evaluatedScore);
     }
 
     /**

@@ -1,12 +1,18 @@
 import { Character } from "../../../../entity/character";
 import { Tilemap } from "../../../../entity/tilemap";
+import { CharacterFactory } from "../../../../factory/characterFactory";
 import { Coord } from "../../../../vo/coord";
+import { OperatePositionCommonService } from "../operatePositionCommonService";
 import { OperatePositionService } from "../operatePositionService";
 
 /**
  * キャラクターの初期位置を手動でセットしてキャラクターを生成するクラス
  */
-export class ManualImpl extends OperatePositionService {
+export class ManualImpl extends OperatePositionCommonService implements OperatePositionService {
+    /**
+     * シーン
+     */
+    private scene: Phaser.Scene;
     /**
      * ポインター
      */
@@ -17,7 +23,8 @@ export class ManualImpl extends OperatePositionService {
     private characters: Character[] = [];
 
     constructor(scene: Phaser.Scene) {
-        super(scene);
+        super();
+        this.scene = scene;
         this.pointer = scene.input.activePointer;
     }
 
@@ -26,10 +33,11 @@ export class ManualImpl extends OperatePositionService {
      * @param tilemap タイルマップ
      * @returns キャラクター
      */
-    getCharacters(tilemap: Tilemap): Character[] {
+    public getCharacters(tilemap: Tilemap): Character[] {
         this.pointer.downElement.addEventListener('pointerdown', () => {
             this.create(tilemap);
         });
+        this.initializations(tilemap, this.characters);
         return this.characters;
     }
 
@@ -42,6 +50,9 @@ export class ManualImpl extends OperatePositionService {
 
         const pos = this.pointer.position;
         const coord = new Coord(tilemap.getTilePos(pos));
-        this.characters = this.getCharactersUpdateTilemap(this.scene, tilemap, this.characters, coord);
+        if (this.characters.every(character => !character.getCoord().equals(coord))) {
+            // 同じ座標にない場合、キャラクターを生成する
+            this.characters.push(CharacterFactory.createForTargetPos(this.scene, tilemap, coord));
+        }
     }
 }

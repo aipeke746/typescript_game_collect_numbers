@@ -2,7 +2,11 @@ import { Character } from "../../entity/character";
 import { Coord } from "../../vo/coord";
 import { Tilemap } from "../../entity/tilemap";
 import { DirectionType } from "../../type/directionType";
-import { Simulate } from "../simulate/simulate";
+import { SimulateDirectionService } from "../simulate/direction/simulateDirectionService";
+import { MapState } from "../../entity/mapState";
+import { SimulatePositionService } from "../simulate/position/simulatePositionService";
+import { GreedyImpl } from "../operate/direction/impl/greedyImpl";
+import { OperateDirectionService } from "../operate/direction/operateDirectionService";
 
 export class MapService {
 
@@ -25,15 +29,38 @@ export class MapService {
     }
 
     /**
-     * キャラクターをグリッド移動させる（シミュレーション用）
+     * キャラクターを移動させる（シミュレーション用）
      * @param simulate シミュレーション
      * @param direction 移動方向
      */
-    public static simulate(simulate: Simulate, direction: DirectionType): void {
+    public static simulate(simulate: SimulateDirectionService, direction: DirectionType): void {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(simulate.character, direction);
             simulate.character.startWalk(nextCoord, direction);
             simulate.mapState.advance(nextCoord);
+        } catch {
+            return;
+        }
+    }
+
+    /**
+     * キャラクターを移動させる（シミュレーション用）
+     * @param simulate シミュレーション
+     * @returns 
+     */
+    public static simulatePosition(simulate: SimulatePositionService): void {
+        const greedyDirection: OperateDirectionService = new GreedyImpl();
+
+        try {
+            simulate.characters.map(character => {
+                const direction = greedyDirection.getDirection(character, simulate.mapState);
+                const nextCoord = this.getMoveToCoordFromCharacter(character, direction);
+
+                return { character, nextCoord, direction };
+            }).forEach(({ character, nextCoord, direction }) => {
+                character.startWalk(nextCoord, direction);
+                simulate.mapState.advance(nextCoord);
+            });
         } catch {
             return;
         }
@@ -65,10 +92,10 @@ export class MapService {
      * @param direction 移動方向
      * @returns キャラクターの移動先のポイント
      */
-    public static getPointByDirection(character: Character, tilemap: Tilemap, direction: DirectionType): number {
+    public static getPointByDirection(character: Character, mapState: MapState, direction: DirectionType): number {
         try {
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(character, direction);
-            return tilemap.mapState.getPoint(nextCoord);
+            return mapState.getPoint(nextCoord);
         } catch {
             return 0;
         }

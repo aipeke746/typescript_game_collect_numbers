@@ -81,7 +81,9 @@ export class CharacterFactory {
      */
     private static playAnims(scene: Phaser.Scene, sprite: Phaser.GameObjects.Sprite, spriteName: string): void {
         for (let anim of this.ANIMS) {
-            if (scene.anims.create(this.animConfig(scene, anim, spriteName)) === false) continue;
+            if (!scene.anims.exists(anim.key)) {
+                scene.anims.create(this.animConfig(scene, anim, spriteName));
+            }
             sprite.anims.play(anim.key);
         }
         sprite.anims.play('walk_front');

@@ -1,5 +1,5 @@
 import { Character } from "../../../../entity/character";
-import { Tilemap } from "../../../../entity/tilemap";
+import { MapState } from "../../../../entity/mapState";
 import { DirectionType } from "../../../../type/directionType";
 import { MapService } from "../../../map/mapService";
 import { OperateDirectionService } from "../operateDirectionService";
@@ -17,22 +17,22 @@ export class GreedyImpl implements OperateDirectionService {
      * @param tilemap タイルマップ
      * @returns キャラクターの移動方向
      */
-    public getDirection(character: Character, tilemap: Tilemap): DirectionType {
-        return this.getGreedyDirection(character, tilemap);
+    public getDirection(character: Character, mapState: MapState): DirectionType {
+        return this.getGreedyDirection(character, mapState);
     }
 
     /**
      * 貪欲法を使ってキャラクターの移動方向を決定する
      * @param character キャラクター
-     * @param tilemap タイルマップ
+     * @param mapState マップの状態
      * @returns キャラクターの移動方向
      */
-    private getGreedyDirection(character: Character, tilemap: Tilemap): DirectionType {
+    private getGreedyDirection(character: Character, mapState: MapState): DirectionType {
         const directions: DirectionType[] = MapService.legalDirections(character);
         let best: [number, DirectionType] = [-1, DirectionType.NONE];
 
         for (let direction of directions) {
-            const point = MapService.getPointByDirection(character, tilemap, direction);
+            const point = MapService.getPointByDirection(character, mapState, direction);
             if (point > best[0]) {
                 best = [point, direction];
             }

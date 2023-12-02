@@ -16,7 +16,7 @@ export class MapState {
     /**
      * 0の数字
      */
-    public static readonly ZERO_NUMBER = 0;
+    public static readonly ZERO_POINT = 0;
 
     /**
      * マップの状態
@@ -51,7 +51,7 @@ export class MapState {
      */
     public advance(nextCoord: Coord): void {
         this.score += this.getPoint(nextCoord);
-        this.setPoint(nextCoord, MapState.ZERO_NUMBER);
+        this.setPoint(nextCoord, MapState.ZERO_POINT);
         this.turn++;
     }
 
@@ -77,11 +77,18 @@ export class MapState {
     }
 
     /**
+     * ターン数をリセットする
+     */
+    public resetTurn(): void {
+        this.turn = 0;
+    }
+
+    /**
      * ゲームが終了しているかどうかを返す
      * @returns ゲーム終了
      */
     public isDone(): boolean {
-        return this.turn > Params.END_TURN;
+        return this.turn >= Params.END_TURN;
     }
 
     /**
@@ -90,14 +97,6 @@ export class MapState {
      */
     public getScore(): number {
         return this.score;
-    }
-
-    /**
-     * 指定された座標のポイントをスコアに加算する
-     * @param coord 座標
-     */
-    public setScore(coord: Coord): void {
-        this.score = this.getPoint(coord);
     }
 
     /**

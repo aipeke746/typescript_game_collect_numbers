@@ -1,8 +1,8 @@
-import { Character } from "../../entity/character";
-import { MapState } from "../../entity/mapState";
-import { DirectionType } from "../../type/directionType";
+import { Character } from "../../../entity/character";
+import { MapState } from "../../../entity/mapState";
+import { DirectionType } from "../../../type/directionType";
 
-export interface Simulate {
+export interface SimulateDirectionService {
     /**
      * キャラクター
      */
@@ -33,5 +33,5 @@ export interface Simulate {
      * シミュレーションを複製する
      * @returns シミュレーションの複製
      */
-    clone(): Simulate;
+    clone(): SimulateDirectionService;
 }

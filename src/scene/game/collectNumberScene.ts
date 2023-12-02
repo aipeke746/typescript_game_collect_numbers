@@ -39,7 +39,7 @@ export class CollectNumberScene extends Phaser.Scene {
         this.tilemap = new Tilemap(this, 'mapTiles');
         this.character = CharacterFactory.createForRandomPos(this, this.tilemap);
         // キャラクターの初期位置のポイントを0にする
-        this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_NUMBER);
+        this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_POINT);
         this.tilemap.advance(this.character.getCoord());
     }
 
@@ -53,7 +53,7 @@ export class CollectNumberScene extends Phaser.Scene {
             BattleService.showResult(this, this.tilemap);
         } else {
             // ゲームプレイ中
-            const direction: DirectionType = this.operationType.getDirection(this.character, this.tilemap);
+            const direction: DirectionType = this.operationType.getDirection(this.character, this.tilemap.mapState);
             if (direction === DirectionType.NONE) return;
 
             this.timeDelayManager.update();
