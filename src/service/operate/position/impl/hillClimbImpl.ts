@@ -64,7 +64,7 @@ export class HillClimbImpl extends OperatePositionCommonService implements Opera
         nowBeam.deleteAllCharacters();
 
         const bestCharacters: Character[] = this.createCharactersByCoords(tilemap, bestScore[1]);
-        this.initializations(tilemap, bestCharacters);
+        MapService.initializations(tilemap, bestCharacters);
 
         return bestCharacters;
     }

@@ -102,6 +102,29 @@ export class MapService {
     }
 
     /**
+     * キャラクターの初期位置のポイントとターンを0にする
+     * @param tilemap タイルマップ
+     * @param characters キャラクター
+     */
+    public static initializations(tilemap:Tilemap, characters: Character[]): void {
+        for (const character of characters) {
+            this.initialization(tilemap, character);
+        }
+    }
+
+    /**
+     * キャラクターの初期位置のポイントとターンを0にする
+     * @param tilemap タイルマップ
+     * @param coord タイルマップの座標
+     */
+    private static initialization(tilemap: Tilemap, character: Character): void {
+        const coord: Coord = character.getCoord();
+        tilemap.mapState.setPoint(coord, MapState.ZERO_POINT);
+        tilemap.advance(character, coord);
+        tilemap.mapState.resetTurn();
+    }
+
+    /**
      * 指定された移動方向からキャラクターの移動先の座標を返す
      * @param character キャラクター
      * @param direction 移動方向

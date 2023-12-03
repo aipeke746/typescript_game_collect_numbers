@@ -2,6 +2,7 @@ import { Character } from "../../../../entity/character";
 import { Tilemap } from "../../../../entity/tilemap";
 import { CharacterFactory } from "../../../../factory/characterFactory";
 import { Coord } from "../../../../vo/coord";
+import { MapService } from "../../../map/mapService";
 import { OperatePositionCommonService } from "../operatePositionCommonService";
 import { OperatePositionService } from "../operatePositionService";
 
@@ -32,7 +33,7 @@ export class ManualImpl extends OperatePositionCommonService implements OperateP
         this.pointer.downElement.addEventListener('pointerdown', () => {
             this.create(tilemap);
         });
-        this.initializations(tilemap, this.characters);
+        MapService.initializations(tilemap, this.characters);
         return this.characters;
     }
 

@@ -1,5 +1,4 @@
 import { Character } from "../../../entity/character";
-import { MapState } from "../../../entity/mapState";
 import { Tilemap } from "../../../entity/tilemap";
 import { CharacterFactory } from "../../../factory/characterFactory";
 import { CoordFactory } from "../../../factory/coordFactory";
@@ -16,29 +15,6 @@ export class OperatePositionCommonService {
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
-    }
-
-    /**
-     * キャラクターの初期位置のポイントとターンを0にする
-     * @param tilemap タイルマップ
-     * @param characters キャラクター
-     */
-    protected initializations(tilemap:Tilemap, characters: Character[]): void {
-        for (const character of characters) {
-            this.initialization(tilemap, character);
-        }
-    }
-
-    /**
-     * キャラクターの初期位置のポイントとターンを0にする
-     * @param tilemap タイルマップ
-     * @param coord タイルマップの座標
-     */
-    protected initialization(tilemap: Tilemap, character: Character): void {
-        const coord: Coord = character.getCoord();
-        tilemap.mapState.setPoint(coord, MapState.ZERO_POINT);
-        tilemap.advance(character, coord);
-        tilemap.mapState.resetTurn();
     }
 
     /**

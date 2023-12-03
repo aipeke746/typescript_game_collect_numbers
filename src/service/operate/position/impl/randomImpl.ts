@@ -4,6 +4,7 @@ import { CharacterFactory } from "../../../../factory/characterFactory";
 import { CoordFactory } from "../../../../factory/coordFactory";
 import { Params } from "../../../../params";
 import { Coord } from "../../../../vo/coord";
+import { MapService } from "../../../map/mapService";
 import { OperatePositionCommonService } from "../operatePositionCommonService";
 import { OperatePositionService } from "../operatePositionService";
 
@@ -23,7 +24,7 @@ export class RandomImpl extends OperatePositionCommonService implements OperateP
      */
     public getCharacters(tilemap: Tilemap): Character[] {
         const characters: Character[] = this.create(tilemap);
-        this.initializations(tilemap, characters);
+        MapService.initializations(tilemap, characters);
         return characters;
     }
 

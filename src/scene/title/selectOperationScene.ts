@@ -31,7 +31,7 @@ export class SelectOperationScene extends Phaser.Scene {
     }
 
     /**
-     * テキストを生成して、クリック時のイベントを設定する
+     * テキストを生成して、クリック時の『数字集め迷路』を設定する
      * イベント：操作方法
      * @param x ワールドのｘ座標
      * @param y ワールドのｙ座標
@@ -43,7 +43,7 @@ export class SelectOperationScene extends Phaser.Scene {
     }
 
     /**
-     * 
+     * テキストを生成して、クリック時の『オート数字集め迷路』を設定する
      * @param x ワールドのx座標
      * @param y ワールドのy座標
      * @param content 表示内容
