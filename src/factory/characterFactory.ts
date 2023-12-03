@@ -87,6 +87,7 @@ export class CharacterFactory {
             sprite.anims.play(anim.key);
         }
         sprite.anims.play('walk_front');
+        sprite.anims.stop();
     }
 
     /**

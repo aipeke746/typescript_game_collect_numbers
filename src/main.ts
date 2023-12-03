@@ -6,6 +6,7 @@ import { MapState } from './entity/mapState';
 import { Params } from './params';
 import { SelectGameScene } from './scene/title/selectGameScene';
 import { CollectNumberAutoScene } from './scene/game/collectNumberAutoScene';
+import { CollectNumberAlternateScene } from './scene/game/collectNumberAlternateScene';
 
 const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
@@ -22,7 +23,7 @@ const config: Phaser.Types.Core.GameConfig = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
-    scene: [SelectGameScene, SelectOperationScene, CollectNumberScene, CollectNumberAutoScene],
+    scene: [SelectGameScene, SelectOperationScene, CollectNumberScene, CollectNumberAutoScene, CollectNumberAlternateScene],
 };
 
 new Phaser.Game(config);

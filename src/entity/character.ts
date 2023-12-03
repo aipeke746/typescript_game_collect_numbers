@@ -98,12 +98,6 @@ export class Character {
      */
     public stopWalk(): void {
         this.walking = false;
-    }
-
-    /**
-     * キャラクターのアニメーションを停止する
-     */
-    public idle(): void {
         this.sprite.anims.stop();
     }
 

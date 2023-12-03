@@ -73,6 +73,14 @@ export class MapState {
     }
 
     /**
+     * 現在のターン数を返す
+     * @returns ターン数
+     */
+    public getTurn(): number {
+        return this.turn;
+    }
+
+    /**
      * ターン数をリセットする
      */
     public resetTurn(): void {

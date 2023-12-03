@@ -1,4 +1,3 @@
-import { Character } from "../../../../entity/character";
 import { DirectionType } from "../../../../type/directionType";
 import { OperateDirectionService } from "../operateDirectionService";
 
@@ -20,8 +19,7 @@ export class ManualImpl implements OperateDirectionService {
      * キャラクターの移動方向を返す
      * @returns キャラクターの移動方向
      */
-    public getDirection(character: Character): DirectionType {
-        character.idle();
+    public getDirection(): DirectionType {
         return this.getManualDirection();
     }
 

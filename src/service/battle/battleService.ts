@@ -21,6 +21,14 @@ export class BattleService {
         this.createScoreText(scene, score);
     }
 
+    public static showResult3(scene: Phaser.Scene, character: Character[]): void {
+        const score1: number = character[0].getScore();
+        const score2: number = character[1].getScore();
+        this.createScoreText(scene, score1);
+        scene.add.text(scene.sys.canvas.width/2, scene.sys.canvas.height-20, `Score: ${score2}`)
+            .setOrigin(0.5);
+    }
+
     private static createScoreText(scene: Phaser.Scene, score: number): void {
         scene.add.text(scene.sys.canvas.width/2, scene.sys.canvas.height-50, `Score: ${score}`)
             .setOrigin(0.5);
