@@ -7,7 +7,7 @@ import { AlternateImpl } from "../../../simulate/direction/impl/alternateImpl";
 import { SimulateDirectionService } from "../../../simulate/direction/simulateDirectionService";
 import { OperateDirectionService } from "../operateDirectionService";
 
-export class MiniMaxImpl implements OperateDirectionService {
+export class AlphaBetaImpl implements OperateDirectionService {
     /**
      * 無限大を表す定数
      */
@@ -26,39 +26,42 @@ export class MiniMaxImpl implements OperateDirectionService {
      */
     public getDirection(character: Character, mapState: MapState, opponent: Character): DirectionType {
         const simulate: SimulateDirectionService = new AlternateImpl(character, opponent, mapState);
-        return this.getMiniMaxDirection(simulate);
+        return this.getAlphaBetaDirection(simulate);
     }
 
     /**
-     * ミニマックス法で最善の移動方向を返す
+     * αβ法で最善の移動方向を返す
      * @param simulate シミュレーション
      * @returns 最善の移動方向
      */
-    private getMiniMaxDirection(simulate: SimulateDirectionService): DirectionType {
+    private getAlphaBetaDirection(simulate: SimulateDirectionService): DirectionType {
         let bestDirection = DirectionType.NONE;
-        let bestScore = -this.INF;
+        let alpha = -this.INF;
+        let beta = this.INF;
 
         for (const direction of MapService.legalDirections(simulate.character)) {
             const nextState = simulate.clone();
             MapService.simulate(nextState, direction);
 
-            const score = this.miniMaxScore(nextState, this.depth, false);
-            if (score > bestScore) {
+            const score = this.alphaBetaScore(nextState, this.depth, alpha, beta, false);
+            if (score > alpha) {
+                alpha = score;
                 bestDirection = direction;
-                bestScore = score;
             }
         }
         return bestDirection;
     }
 
     /**
-     * ミニマックス法で最善の評価値を返す
+     * αβ法で最良の評価値を返す
      * @param simulate シミュレーション
      * @param depth 探索深さ
+     * @param alpha 現在のノードのスコアから探索を打ち切るかを判定
+     * @param beta 1つ下のノードのスコアから探索を打ち切るかを判定
      * @param myTurn 自分のターンかどうか
-     * @returns 最善の評価値
+     * @returns 最良の評価値
      */
-    private miniMaxScore(simulate: SimulateDirectionService, depth: number, myTurn: boolean): number {
+    private alphaBetaScore(simulate: SimulateDirectionService, depth: number, alpha: number, beta: number, myTurn: boolean): number {
         if (!simulate.opponent) {
             throw new Error("opponent is undefined");
         }
@@ -68,40 +71,46 @@ export class MiniMaxImpl implements OperateDirectionService {
             return simulate.evaluatedScore;
         }
 
-        let bestScore;
         if (myTurn) {
             // 自分のターン
-            bestScore = -this.INF;
+            let value = -this.INF;
             for (const direction of MapService.legalDirections(simulate.character)) {
-                const schildScore = this.getChildScore(simulate, direction, depth, myTurn);
-                if (schildScore > bestScore) {
-                    bestScore = schildScore;
+                const childScore = this.getChildScore(simulate, direction, depth, alpha, beta, myTurn);
+                value = Math.max(value, childScore);
+                alpha = Math.max(alpha, value);
+                if (alpha >= beta) {
+                    break;
                 }
             }
+            return value;
         } else {
             // 相手のターン
-            bestScore = this.INF;
+            let value = this.INF;
             for (const direction of MapService.legalDirections(simulate.opponent)) {
-                const childScore = this.getChildScore(simulate, direction, depth, myTurn);
-                if (childScore < bestScore) {
-                    bestScore = childScore;
+                const childScore = this.getChildScore(simulate, direction, depth, alpha, beta, myTurn);
+                value = Math.min(value, childScore);
+                beta = Math.min(beta, value);
+                if (alpha >= beta) {
+                    break;
                 }
             }
+            return value;
         }
-        return bestScore;
     }
 
     /**
-     * ミニマックス法で子ノードの最良の評価値を返す
+     * αβ法で子ノードの最良の評価値を返す
      * @param simulate シミュレーション
      * @param direction 移動方向
      * @param depth 探索深さ
+     * @param alpha 現在のノードのスコアから探索を打ち切るかを判定
+     * @param beta 1つ下のノードのスコアから探索を打ち切るかを判定
      * @param myTurn 自分のターンかどうか
      * @returns 評価値
      */
-    private getChildScore(simulate: SimulateDirectionService, direction: DirectionType, depth: number, myTurn: boolean): number {
+    private getChildScore(simulate: SimulateDirectionService, direction: DirectionType, depth: number, alpha: number, beta: number, myTurn: boolean): number {
         const nextState = simulate.clone();
         MapService.simulate(nextState, direction);
-        return this.miniMaxScore(nextState, depth - 1, !myTurn);
+        return this.alphaBetaScore(nextState, depth - 1, alpha, beta, !myTurn);
     }
 }

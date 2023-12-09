@@ -1,3 +1,4 @@
+import { AlphaBetaImpl } from "../service/operate/direction/impl/alphaBetaImpl";
 import { BeamSearchImpl } from "../service/operate/direction/impl/beamSearchImpl";
 import { GreedyImpl } from "../service/operate/direction/impl/greedyImpl";
 import { ManualImpl } from "../service/operate/direction/impl/manualImpl";
@@ -22,6 +23,8 @@ export class OperateDirectionFactory {
                 return new BeamSearchImpl();
             case OperateDirectionType.MINIMAX:
                 return new MiniMaxImpl();
+            case OperateDirectionType.ALPHA_BETA:
+                return new AlphaBetaImpl();
             default:
                 throw new Error(`Not implemented operation type: ${operationType}`);
         }

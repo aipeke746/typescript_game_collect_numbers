@@ -19,4 +19,8 @@ export enum OperateDirectionType {
      * MINIMAX法
      */
     MINIMAX,
+    /**
+     * αβ法
+     */
+    ALPHA_BETA,
 }
