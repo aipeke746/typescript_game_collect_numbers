@@ -1,5 +1,5 @@
 import { Character } from "../../../../entity/character";
-import { SimulateDirectionImpl } from "../../../simulate/direction/impl/simulateDirectionImpl";
+import { SimulateBeamSearchImpl } from "../../../simulate/direction/impl/simulateBeamSearchImpl";
 import { Params } from "../../../../params";
 import { DirectionType } from "../../../../type/directionType";
 import { MapService } from "../../../map/mapService";
@@ -8,7 +8,7 @@ import { SimulateDirectionService } from "../../../simulate/direction/simulateDi
 import { MapState } from '../../../../entity/mapState';
 
 /**
- * ビームサーチ法を使ってキャラクターの移動方向を決定するクラス
+ * ビームサーチ法でキャラクターの移動方向を返すクラス
  */
 export class BeamSearchImpl implements OperateDirectionService {
     /**
@@ -27,7 +27,7 @@ export class BeamSearchImpl implements OperateDirectionService {
      * @returns キャラクターの移動方向
      */
     public getDirection(character: Character, mapState: MapState): DirectionType {
-        const simulate: SimulateDirectionService = new SimulateDirectionImpl(character, mapState);
+        const simulate: SimulateDirectionService = new SimulateBeamSearchImpl(character, mapState);
         return this.getBeamSearchDirection(simulate);
     }
 
@@ -48,7 +48,7 @@ export class BeamSearchImpl implements OperateDirectionService {
                 const index = this.topBestIndex(nowBeam);
                 const nowState: SimulateDirectionService = nowBeam[index];
                 nowBeam.splice(index, 1);
-                const legalDirections: DirectionType[] = MapService.legalDirections(nowState.character);
+                const legalDirections: DirectionType[] = MapService.possibleDirections(nowState.character);
 
                 for (const direction of legalDirections) {
                     const nextState = nowState.clone();

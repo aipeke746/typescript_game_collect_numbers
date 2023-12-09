@@ -5,7 +5,7 @@ import { RandomImpl } from "../service/operate/position/impl/randomImpl";
 import { OperatePositionType } from "../type/operatePositionType";
 
 /**
- * キャラクターの初期位置を生成するクラス
+ * キャラクターの生成位置の操作方法タイプから操作位置サービスを生成するファクトリークラス
  */
 export class OperatePositionFactory {
     public static create(scene: Phaser.Scene, operationType: OperatePositionType) {

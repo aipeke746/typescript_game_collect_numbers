@@ -3,6 +3,11 @@ import { WalkType } from "../type/walkType";
 import { WalkTypeUtil } from "../util/walkTypeUtil";
 import { Coord } from "../vo/coord";
 
+/**
+ * キャラクターを表すクラス
+ * 
+ * キャラクターのスプライトや座標、スコアなどを管理する
+ */
 export class Character {
     /**
      * キャラクターのスプライト
@@ -14,17 +19,20 @@ export class Character {
     private coord: Coord;
     /**
      * キャラクターが歩いているかどうか
+     * グリッド移動をするため、歩いている間は他の移動を受け付けない
      */
     private walking: boolean = false;
     /**
      * ゲームのスコア
+     * キャラクターが移動するたびにMapStateのpointsが加算される
      */
     private score: number = 0;
 
     /**
-     * タイルマップのランダムな位置にキャラクターを生成する
+     * キャラクターを生成する
      * @param sprite スプライト
      * @param coord タイルマップの座標
+     * @param score スコア
      * @param walking キャラクターが歩いているかどうか
      */
     public constructor(sprite: Phaser.GameObjects.Sprite, coord: Coord, score: number = 0, walking: boolean = false) {
@@ -83,7 +91,7 @@ export class Character {
     }
 
     /**
-     * キャラクターを移動させる
+     * キャラクターを移動状態にする
      * @param nextCoord 移動先の座標
      * @param direction 移動方向
      */
@@ -94,7 +102,7 @@ export class Character {
     }
 
     /**
-     * キャラクターが歩いていない状態にする
+     * キャラクターが移動していない状態にする
      */
     public stopWalk(): void {
         this.walking = false;

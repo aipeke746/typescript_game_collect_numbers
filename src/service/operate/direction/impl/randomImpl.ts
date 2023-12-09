@@ -4,7 +4,7 @@ import { MapService } from "../../../map/mapService";
 import { OperateDirectionService } from "../operateDirectionService";
 
 /**
- * キャラクターをランダムで動かすクラス
+ * ランダムにキャラクターで動かすクラス
  */
 export class RandomImpl implements OperateDirectionService {
     /**
@@ -22,7 +22,7 @@ export class RandomImpl implements OperateDirectionService {
      * @returns ランダムに選択されたキャラクターの移動方向
      */
     private getRandomDirection(character: Character): DirectionType {
-        const directions: DirectionType[] = MapService.legalDirections(character);
+        const directions: DirectionType[] = MapService.possibleDirections(character);
         return directions[Math.floor(Math.random() * directions.length)];
     }
 }

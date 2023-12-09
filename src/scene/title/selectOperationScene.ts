@@ -3,19 +3,32 @@ import { OperateDirectionType } from "../../type/operateDirectionType";
 import { OperatePositionType } from "../../type/operatePositionType";
 
 /**
- * タイトル画面のシーン
+ * ゲームの操作方法を選択するシーン
  */
 export class SelectOperationScene extends Phaser.Scene {
+    /**
+     * ゲームタイプ
+     */
     private gameType?: GameType;
 
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super({ key: 'selectOperationScene' });
     }
 
+    /**
+     * 初期設定
+     * @param data ゲームタイプ
+     */
     init (data: any) {
         this.gameType = data.type as GameType;
     }
 
+    /**
+     * ゲームの操作方法を選択するテキストを生成する
+     */
     create() {
         if (this.gameType === GameType.COLLECT_NUMBER) {
             this.createTextToCollectNumberScene(this.sys.canvas.width/2, this.sys.canvas.height/2-30, '手動でプレイする', OperateDirectionType.MANUAL);

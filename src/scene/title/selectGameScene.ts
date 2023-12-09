@@ -1,13 +1,19 @@
 import { GameType } from "../../type/gameType";
 
 /**
- * タイトル画面のシーン
+ * ゲームタイプを選択するシーン
  */
 export class SelectGameScene extends Phaser.Scene {
+    /**
+     * コンストラクタ
+     */
     constructor() {
         super({ key: 'selectGameScene' });
     }
 
+    /**
+     * ゲームタイプを選択するテキストを生成する
+     */
     create() {
         this.createText(this.sys.canvas.width/2, this.sys.canvas.height/2-30, '数字集め迷路', GameType.COLLECT_NUMBER);
         this.createText(this.sys.canvas.width/2, this.sys.canvas.height/2, 'オート数字集め迷路', GameType.COLLECT_NUMBER_AUTO);

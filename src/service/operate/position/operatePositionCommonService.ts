@@ -5,7 +5,7 @@ import { CoordFactory } from "../../../factory/coordFactory";
 import { Coord } from "../../../vo/coord";
 
 /**
- * キャラクターの初期位置を操作するクラスの共通処理
+ * キャラクターの生成（初期位置）を操作するクラスの共通処理
  */
 export class OperatePositionCommonService {
     /**
@@ -13,6 +13,10 @@ export class OperatePositionCommonService {
      */
     protected scene: Phaser.Scene;
 
+    /**
+     * コンストラクタ
+     * @param scene シーンP
+     */
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
     }
@@ -56,7 +60,7 @@ export class OperatePositionCommonService {
     protected createCharactersByCoords(tilemap: Tilemap, coords: Coord[]): Character[] {
         let characters: Character[] = [];
         for (const coord of coords) {
-            characters.push(CharacterFactory.createForTargetPos(this.scene, tilemap, coord));
+            characters.push(CharacterFactory.createTargetPos(this.scene, tilemap, coord));
         }
         return characters;
     }

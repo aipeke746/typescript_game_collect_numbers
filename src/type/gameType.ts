@@ -1,3 +1,6 @@
+/**
+ * ゲームタイプ
+ */
 export enum GameType {
     /**
      * 数字集め迷路

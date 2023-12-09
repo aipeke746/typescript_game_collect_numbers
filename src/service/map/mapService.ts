@@ -8,15 +8,16 @@ import { SimulatePositionService } from "../simulate/position/simulatePositionSe
 import { GreedyImpl } from "../operate/direction/impl/greedyImpl";
 import { OperateDirectionService } from "../operate/direction/operateDirectionService";
 
+/**
+ * マップを操作するサービス
+ */
 export class MapService {
 
     /**
-     * キャラクターをグリッド移動させる
-     * タイルマップやポイントの更新も行う
+     * キャラクターをグリッド移動させて、タイルマップとポイントを更新する
      * @param character キャラクター
      * @param tilemap タイルマップ
      * @param direction 移動方向
-     * @param tweenDuration キャラクターの移動にかかる時間
      */
     public static advance(character: Character, tilemap: Tilemap, direction: DirectionType): void {
         try {
@@ -29,18 +30,18 @@ export class MapService {
     }
 
     /**
-     * キャラクターを移動させる（シミュレーション用）
+     * シミュレーション用： キャラクターを移動させて、マップの状態を更新する
      * @param simulate シミュレーション
      * @param direction 移動方向
      * @param myTurn 自分のターンかどうか（一人プレイの場合は相手がいないためtrue）
      */
     public static simulateDirection(simulate: SimulateDirectionService, direction: DirectionType, myTurn: boolean = true): void {
         try {
-            const targetCharacter = myTurn ? simulate.character : simulate.opponent;
-            if (!targetCharacter) {
+            if (!simulate.opponent) {
                 throw new Error("Opponent is not found");
             }
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(simulate.character, direction);
+            const targetCharacter = myTurn ? simulate.character : simulate.opponent;
             targetCharacter.startWalk(nextCoord, direction);
             simulate.mapState.advance(targetCharacter, nextCoord);
         } catch {
@@ -49,7 +50,7 @@ export class MapService {
     }
 
     /**
-     * キャラクターを移動させる（シミュレーション用）
+     * シミュレーション用： キャラクターを移動させる
      * @param simulate シミュレーション
      * @returns 
      */
@@ -76,7 +77,7 @@ export class MapService {
      * @param character キャラクター
      * @returns 移動できる方向
      */
-    public static legalDirections(character: Character) {
+    public static possibleDirections(character: Character) {
         const directions: DirectionType[] = [];
         for (let direction=0; direction<4; direction++) {
             try {

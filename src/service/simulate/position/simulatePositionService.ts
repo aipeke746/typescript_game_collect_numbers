@@ -2,6 +2,9 @@ import { Character } from "../../../entity/character";
 import { MapState } from "../../../entity/mapState";
 import { Coord } from "../../../vo/coord";
 
+/**
+ * 初期位置を決めてキャラクターの生成のシミュレーションを表すインターフェース
+ */
 export interface SimulatePositionService {
     /**
      * キャラクター

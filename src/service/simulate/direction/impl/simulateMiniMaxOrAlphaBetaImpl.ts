@@ -4,7 +4,10 @@ import { DirectionType } from "../../../../type/directionType";
 import { CharacterFactory } from '../../../../factory/characterFactory';
 import { SimulateDirectionService } from "../simulateDirectionService";
 
-export class AlternateImpl implements SimulateDirectionService {
+/**
+ * MiniMax法・αβ法でキャラクターの移動方向のシミュレーションを行うクラス
+ */
+export class SimulateMiniMaxOrAlphaBetaImpl implements SimulateDirectionService {
     /**
      * 自分のキャラクター
      */
@@ -26,6 +29,13 @@ export class AlternateImpl implements SimulateDirectionService {
      */
     public evaluatedScore: number;
 
+    /**
+     * コンストラクタ
+     * @param character 自分のキャラクター
+     * @param opponent 相手のキャラクター
+     * @param mapState マップの状態
+     * @param evaluatedScore シミュレーションの評価値
+     */
     constructor(character: Character, opponent: Character, mapState: MapState, evaluatedScore: number = 0) {
         this.character = CharacterFactory.clone(character);
         this.opponent = CharacterFactory.clone(opponent);
@@ -37,8 +47,8 @@ export class AlternateImpl implements SimulateDirectionService {
      * シミュレーションを複製する
      * @returns シミュレーションの複製
      */
-    public clone(): AlternateImpl {
-        return new AlternateImpl(this.character, this.opponent, this.mapState, this.evaluatedScore);
+    public clone(): SimulateMiniMaxOrAlphaBetaImpl {
+        return new SimulateMiniMaxOrAlphaBetaImpl(this.character, this.opponent, this.mapState, this.evaluatedScore);
     }
 
     /**

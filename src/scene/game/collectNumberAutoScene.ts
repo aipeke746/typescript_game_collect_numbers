@@ -12,6 +12,9 @@ import { DirectionType } from "../../type/directionType";
 import { OperateDirectionType } from "../../type/operateDirectionType";
 import { Params } from '../../params';
 
+/**
+ * オート数字集め迷路のプレイシーン
+ */
 export class CollectNumberAutoScene extends Phaser.Scene {
     private characters?: Character[];
     private tilemap?: Tilemap;

@@ -5,6 +5,8 @@ import { MapState } from './mapState';
 
 /**
  * タイルマップを表すクラス
+ * 
+ * MapStateをTilemapに反映することで画面上に反映される
  */
 export class Tilemap {
     /**
@@ -24,15 +26,21 @@ export class Tilemap {
      */
     private layer: Phaser.Tilemaps.TilemapLayer;
 
+    /**
+     * タイルマップを生成する
+     * @param scene シーン
+     * @param tilesetName タイルセットの名前
+     */
     constructor(scene: Phaser.Scene, tilesetName: string) {
         this.mapState = new MapState();
-        this.map = scene.make.tilemap({ data: this.mapState.getMain(), tileWidth: MapState.SIZE, tileHeight: MapState.SIZE });
+        this.map = scene.make.tilemap({ data: this.mapState.getPoints(), tileWidth: MapState.SIZE, tileHeight: MapState.SIZE });
         this.tileset = this.getTileset(tilesetName, this.map);
         this.layer = this.getLayer(this.tileset);
     }
 
     /**
-     * キャラクターが移動した時のマップ情報とタイルマップの更新を行う
+     * キャラクターの移動処理とMapStateの更新とTilemapの更新を行う
+     * @param character キャラクター
      * @param direction 移動方向
      */
     public advance(character: Character, nextCoord: Coord): void {
@@ -41,12 +49,12 @@ export class Tilemap {
     }
 
     /**
-     * マップを更新する
+     * MapStateの内容をTilemapに反映する
      */
     private update() {
         for (let y=0; y<Params.MAP_ROW; y++) {
             for (let x=0; x<Params.MAP_COLUMN; x++) {
-                this.layer.putTileAt(this.mapState.getMain()[y][x], x, y);
+                this.layer.putTileAt(this.mapState.getPoints()[y][x], x, y);
             }
         }
     }

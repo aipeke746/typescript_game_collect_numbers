@@ -9,6 +9,9 @@ import { OperatePositionService } from "../operatePositionService";
 /**
  * キャラクターの初期位置を手動でセットしてキャラクターを生成するクラス
  */
+/**
+ * 手動で初期位置を決めてキャラクターを生成するクラス
+ */
 export class ManualImpl extends OperatePositionCommonService implements OperatePositionService {
     /**
      * ポインター
@@ -19,6 +22,10 @@ export class ManualImpl extends OperatePositionCommonService implements OperateP
      */
     private characters: Character[] = [];
 
+    /**
+     * コンストラクタ
+     * @param scene シーン
+     */
     constructor(scene: Phaser.Scene) {
         super(scene);
         this.pointer = scene.input.activePointer;
@@ -48,7 +55,7 @@ export class ManualImpl extends OperatePositionCommonService implements OperateP
         const coord = new Coord(tilemap.getTilePos(pos));
         if (this.characters.every(character => !character.getCoord().equals(coord))) {
             // 同じ座標にない場合、キャラクターを生成する
-            this.characters.push(CharacterFactory.createForTargetPos(this.scene, tilemap, coord));
+            this.characters.push(CharacterFactory.createTargetPos(this.scene, tilemap, coord));
         }
     }
 }

@@ -4,10 +4,14 @@ import { Character } from "./character";
 
 /**
  * マップの状態を表すクラス
+ * 
+ * ポイントやターン数を管理する
+ * 画面上にマップの状態を反映する場合は、Tilemapクラスに反映して更新する
+ * シミュレーションなどでを行う場合は　、MapStateクラスのみを更新する
  */
 export class MapState {
     /**
-     * タイルのサイズ
+     * タイルのピクセルサイズ
      */
     public static readonly SIZE: number = 64;
     /**
@@ -15,22 +19,21 @@ export class MapState {
      */
     public static readonly ALL_NUMBERS_COUNT: number = 10;
     /**
-     * 0の数字
+     * 0の数字を表す定数
      */
     public static readonly ZERO_POINT = 0;
 
     /**
-     * マップの状態
+     * マップ上のポイントを表す二次元配列
      */
     private points: number[][] = Array.from(Array(Params.MAP_ROW), () => new Array(Params.MAP_COLUMN).fill(0));
     /**
      * ターン数
-     * ゲーム開始時にプレイヤー位置の初期化で1ターン使用する
      */
     private turn: number = 0;
 
     /**
-     * マップ上にランダムな数字を設定してマップの状態を生成する
+     * マップ上にランダムなポイントを設定してマップの状態を生成する
 　     */
     constructor() {
         for (let y=0; y<Params.MAP_ROW; y++) {
@@ -43,7 +46,8 @@ export class MapState {
     }
 
     /**
-     * キャラクターが移動した時の処理を行う
+     * キャラクター時の移動処理を行う
+     * @param character キャラクター
      * @param nextCoord 移動先の座標
      */
     public advance(character: Character, nextCoord: Coord): void {
@@ -53,10 +57,10 @@ export class MapState {
     }
 
     /**
-     * マップの状態を返す
+     * マップのポイントの状態を返す
      * @returns マップの状態
      */
-    public getMain(): number[][] {
+    public getPoints(): number[][] {
         return this.points;
     }
 

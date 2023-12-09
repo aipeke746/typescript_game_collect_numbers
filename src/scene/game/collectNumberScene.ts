@@ -11,7 +11,7 @@ import { OperateDirectionService } from "../../service/operate/direction/operate
 import { DirectionType } from "../../type/directionType";
 
 /**
- * ゲーム画面のシーン
+ * 数字集め迷路のプレイシーン
  */
 export class CollectNumberScene extends Phaser.Scene {
     private character?: Character;
@@ -37,7 +37,8 @@ export class CollectNumberScene extends Phaser.Scene {
         new BackButton(this, 'selectGameScene');
         this.timeDelayManager = new TimeDelayManager(this);
         this.tilemap = new Tilemap(this, 'mapTiles');
-        this.character = CharacterFactory.createForRandomPos(this, this.tilemap);
+        this.character = CharacterFactory.createRandomPos(this, this.tilemap);
+
         // キャラクターの初期位置のポイントを0にする
         this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_POINT);
         this.tilemap.advance(this.character, this.character.getCoord());

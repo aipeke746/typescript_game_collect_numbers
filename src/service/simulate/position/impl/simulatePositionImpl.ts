@@ -3,6 +3,9 @@ import { MapState } from "../../../../entity/mapState";
 import { Coord } from "../../../../vo/coord";
 import { SimulatePositionService } from "../simulatePositionService";
 
+/**
+ * 初期位置を決めてキャラクターの生成のシミュレーションを表すクラス
+ */
 export class SimulatePositionImpl implements SimulatePositionService {
     /**
      * キャラクター

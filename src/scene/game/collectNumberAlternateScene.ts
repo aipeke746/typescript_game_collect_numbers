@@ -38,8 +38,8 @@ export class CollectNumberAlternateScene extends Phaser.Scene {
         this.timeDelayManager = new TimeDelayManager(this);
         this.tilemap = new Tilemap(this, 'mapTiles');
         this.characters = [];
-        this.characters.push(CharacterFactory.createForRandomPos(this, this.tilemap));
-        this.characters.push(CharacterFactory.createForRandomPos(this, this.tilemap));
+        this.characters.push(CharacterFactory.createRandomPos(this, this.tilemap));
+        this.characters.push(CharacterFactory.createRandomPos(this, this.tilemap));
         // キャラクターの初期位置のポイントを0にする
         for (const character of this.characters) {
             this.tilemap.mapState.setPoint(character.getCoord(), 0);

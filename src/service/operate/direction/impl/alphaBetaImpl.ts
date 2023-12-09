@@ -3,10 +3,13 @@ import { MapState } from "../../../../entity/mapState";
 import { Params } from "../../../../params";
 import { DirectionType } from "../../../../type/directionType";
 import { MapService } from "../../../map/mapService";
-import { AlternateImpl } from "../../../simulate/direction/impl/alternateImpl";
+import { SimulateMiniMaxOrAlphaBetaImpl } from "../../../simulate/direction/impl/simulateMiniMaxOrAlphaBetaImpl";
 import { SimulateDirectionService } from "../../../simulate/direction/simulateDirectionService";
 import { OperateDirectionService } from "../operateDirectionService";
 
+/**
+ * αβ法でキャラクターの移動方向を返すクラス
+ */
 export class AlphaBetaImpl implements OperateDirectionService {
     /**
      * 無限大を表す定数
@@ -25,7 +28,7 @@ export class AlphaBetaImpl implements OperateDirectionService {
      * @returns キャラクターの移動方向
      */
     public getDirection(character: Character, mapState: MapState, opponent: Character): DirectionType {
-        const simulate: SimulateDirectionService = new AlternateImpl(character, opponent, mapState);
+        const simulate: SimulateDirectionService = new SimulateMiniMaxOrAlphaBetaImpl(character, opponent, mapState);
         return this.getAlphaBetaDirection(simulate);
     }
 
@@ -39,7 +42,7 @@ export class AlphaBetaImpl implements OperateDirectionService {
         let alpha = -this.INF;
         let beta = this.INF;
 
-        for (const direction of MapService.legalDirections(simulate.character)) {
+        for (const direction of MapService.possibleDirections(simulate.character)) {
             const nextState = simulate.clone();
             MapService.simulateDirection(nextState, direction);
 
@@ -74,7 +77,7 @@ export class AlphaBetaImpl implements OperateDirectionService {
         if (myTurn) {
             // 自分のターン
             let value = -this.INF;
-            for (const direction of MapService.legalDirections(simulate.character)) {
+            for (const direction of MapService.possibleDirections(simulate.character)) {
                 const childScore = this.getChildScore(simulate, direction, depth, alpha, beta, myTurn);
                 value = Math.max(value, childScore);
                 alpha = Math.max(alpha, value);
@@ -86,7 +89,7 @@ export class AlphaBetaImpl implements OperateDirectionService {
         } else {
             // 相手のターン
             let value = this.INF;
-            for (const direction of MapService.legalDirections(simulate.opponent)) {
+            for (const direction of MapService.possibleDirections(simulate.opponent)) {
                 const childScore = this.getChildScore(simulate, direction, depth, alpha, beta, myTurn);
                 value = Math.min(value, childScore);
                 beta = Math.min(beta, value);

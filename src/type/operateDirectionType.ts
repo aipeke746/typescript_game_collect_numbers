@@ -1,3 +1,6 @@
+/**
+ * 操作方向タイプ
+ */
 export enum OperateDirectionType {
 
     // 一人プレイ・対戦プレイ用

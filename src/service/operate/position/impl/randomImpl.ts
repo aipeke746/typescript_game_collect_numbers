@@ -9,10 +9,14 @@ import { OperatePositionCommonService } from "../operatePositionCommonService";
 import { OperatePositionService } from "../operatePositionService";
 
 /**
- * キャラクターの初期位置をランダムにセットしてキャラクターを生成するクラス
+ * ランダムに初期位置を決めてキャラクターを生成するクラス
  */
 export class RandomImpl extends OperatePositionCommonService implements OperatePositionService {
 
+    /**
+     * コンストラクタ
+     * @param scene シーン
+     */
     constructor(scene: Phaser.Scene) {
         super(scene);
     }
@@ -38,7 +42,7 @@ export class RandomImpl extends OperatePositionCommonService implements OperateP
             const coord: Coord = CoordFactory.randomCoord();
             if (characters.every(character => !character.getCoord().equals(coord))) {
                 // 同じ座標にない場合、キャラクターを生成する
-                characters.push(CharacterFactory.createForTargetPos(this.scene, tilemap, coord));
+                characters.push(CharacterFactory.createTargetPos(this.scene, tilemap, coord));
             }
         }
         return characters;

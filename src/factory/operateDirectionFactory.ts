@@ -9,7 +9,7 @@ import { OperateDirectionService } from "../service/operate/direction/operateDir
 import { OperateDirectionType } from "../type/operateDirectionType";
 
 /**
- * キャラクターの操作方法を生成するクラス
+ * キャラクターの操作方向タイプから操作方向サービスを生成するファクトリークラス
  */
 export class OperateDirectionFactory {
     public static create(scene: Phaser.Scene, operationType: OperateDirectionType): OperateDirectionService {

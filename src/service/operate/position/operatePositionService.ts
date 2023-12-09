@@ -2,7 +2,7 @@ import { Character } from "../../../entity/character";
 import { Tilemap } from "../../../entity/tilemap";
 
 /**
- * キャラクターの初期位置の操作を表すクラス
+ * キャラクター生成（初期位置）の操作を表すクラス
  */
 export interface OperatePositionService {
     /**

@@ -3,10 +3,13 @@ import { MapState } from "../../../../entity/mapState";
 import { Params } from "../../../../params";
 import { DirectionType } from "../../../../type/directionType";
 import { MapService } from "../../../map/mapService";
-import { AlternateImpl } from "../../../simulate/direction/impl/alternateImpl";
+import { SimulateMiniMaxOrAlphaBetaImpl } from "../../../simulate/direction/impl/simulateMiniMaxOrAlphaBetaImpl";
 import { SimulateDirectionService } from "../../../simulate/direction/simulateDirectionService";
 import { OperateDirectionService } from "../operateDirectionService";
 
+/**
+ * MiniMax法でキャラクターの移動方向を返すクラス
+ */
 export class MiniMaxImpl implements OperateDirectionService {
     /**
      * 無限大を表す定数
@@ -25,7 +28,7 @@ export class MiniMaxImpl implements OperateDirectionService {
      * @returns キャラクターの移動方向
      */
     public getDirection(character: Character, mapState: MapState, opponent: Character): DirectionType {
-        const simulate: SimulateDirectionService = new AlternateImpl(character, opponent, mapState);
+        const simulate: SimulateDirectionService = new SimulateMiniMaxOrAlphaBetaImpl(character, opponent, mapState);
         return this.getMiniMaxDirection(simulate);
     }
 
@@ -38,7 +41,7 @@ export class MiniMaxImpl implements OperateDirectionService {
         let bestDirection = DirectionType.NONE;
         let bestScore = -this.INF;
 
-        for (const direction of MapService.legalDirections(simulate.character)) {
+        for (const direction of MapService.possibleDirections(simulate.character)) {
             const nextState = simulate.clone();
             MapService.simulateDirection(nextState, direction);
 
@@ -72,7 +75,7 @@ export class MiniMaxImpl implements OperateDirectionService {
         if (myTurn) {
             // 自分のターン
             bestScore = -this.INF;
-            for (const direction of MapService.legalDirections(simulate.character)) {
+            for (const direction of MapService.possibleDirections(simulate.character)) {
                 const schildScore = this.getChildScore(simulate, direction, depth, myTurn);
                 if (schildScore > bestScore) {
                     bestScore = schildScore;
@@ -81,7 +84,7 @@ export class MiniMaxImpl implements OperateDirectionService {
         } else {
             // 相手のターン
             bestScore = this.INF;
-            for (const direction of MapService.legalDirections(simulate.opponent)) {
+            for (const direction of MapService.possibleDirections(simulate.opponent)) {
                 const childScore = this.getChildScore(simulate, direction, depth, myTurn);
                 if (childScore < bestScore) {
                     bestScore = childScore;

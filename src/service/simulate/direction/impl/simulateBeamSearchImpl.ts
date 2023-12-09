@@ -5,10 +5,9 @@ import { MapState } from "../../../../entity/mapState";
 import { SimulateDirectionService } from "../simulateDirectionService";
 
 /**
- * ビームサーチ法で使用するシミュレーション用のクラス
- * ゲームで使用するタイルマップとキャラクターの複製を持ち、
+ * ビームサーチ法でキャラクターの移動方向のシミュレーションを行うクラス
  */
-export class SimulateDirectionImpl implements SimulateDirectionService {
+export class SimulateBeamSearchImpl implements SimulateDirectionService {
     /**
      * 自分のキャラクター
      */
@@ -48,8 +47,8 @@ export class SimulateDirectionImpl implements SimulateDirectionService {
      * シミュレーションを複製する
      * @returns シミュレーションの複製
      */
-    public clone(): SimulateDirectionImpl {
-        return new SimulateDirectionImpl(this.character, this.mapState, this.firstDirection, this.evaluatedScore);
+    public clone(): SimulateBeamSearchImpl {
+        return new SimulateBeamSearchImpl(this.character, this.mapState, this.firstDirection, this.evaluatedScore);
     }
 
     /**

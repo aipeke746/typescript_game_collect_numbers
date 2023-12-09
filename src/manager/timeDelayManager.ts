@@ -1,3 +1,6 @@
+/**
+ * 移動する間隔を管理するクラス
+ */
 export class TimeDelayManager {
     /**
      * シーン

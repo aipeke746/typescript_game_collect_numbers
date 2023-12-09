@@ -4,6 +4,9 @@ import { WalkType } from "../type/walkType";
 import { Coord } from "../vo/coord";
 import { CoordFactory } from "./coordFactory";
 
+/**
+ * Characterクラスを生成するファクトリークラス
+ */
 export class CharacterFactory {
     /**
      * キャラクターのサイズ
@@ -26,7 +29,7 @@ export class CharacterFactory {
      * @param spriteName スプライト名
      * @returns キャラクター
      */
-    public static createForRandomPos(scene: Phaser.Scene, tilemap: Tilemap, spriteName: string = 'character'): Character {
+    public static createRandomPos(scene: Phaser.Scene, tilemap: Tilemap, spriteName: string = 'character'): Character {
         const coord: Coord = CoordFactory.randomCoord();
         const pos: Phaser.Math.Vector2 = tilemap.getWorldPos(coord);
         const sprite: Phaser.GameObjects.Sprite = this.createSprite(scene, pos, spriteName);
@@ -43,7 +46,7 @@ export class CharacterFactory {
      * @param spriteName スプライト名
      * @returns キャラクター
      */
-    public static createForTargetPos(scene: Phaser.Scene, tilemap: Tilemap, coord: Coord, spriteName: string = 'character'): Character {
+    public static createTargetPos(scene: Phaser.Scene, tilemap: Tilemap, coord: Coord, spriteName: string = 'character'): Character {
         const pos: Phaser.Math.Vector2 = tilemap.getWorldPos(coord);
         const sprite: Phaser.GameObjects.Sprite = this.createSprite(scene, pos, spriteName);
         this.playAnims(scene, sprite, spriteName);

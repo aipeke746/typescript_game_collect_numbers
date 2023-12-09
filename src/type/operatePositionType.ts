@@ -1,3 +1,6 @@
+/**
+ * キャラクターの生成位置の操作方法タイプ
+ */
 export enum OperatePositionType {
     /**
      * 手動

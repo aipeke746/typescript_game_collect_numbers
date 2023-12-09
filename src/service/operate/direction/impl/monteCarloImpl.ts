@@ -7,6 +7,9 @@ import { SimulateDirectionService } from "../../../simulate/direction/simulateDi
 import { OperateDirectionService } from "../operateDirectionService";
 import { RandomImpl } from "./randomImpl";
 
+/**
+ * モンテカルロ法でキャラクターの移動方向を返すクラス
+ */
 export class MonteCarloImpl implements OperateDirectionService {
     /**
      * モンテカルロ法の試行回数
@@ -38,7 +41,7 @@ export class MonteCarloImpl implements OperateDirectionService {
         let bestScore = -1;
         let bestDirection = DirectionType.NONE;
 
-        for (const direction of MapService.legalDirections(simulate.character)) {
+        for (const direction of MapService.possibleDirections(simulate.character)) {
             const nextState = simulate.clone();
             MapService.simulateDirection(nextState, direction);
 

@@ -2,6 +2,9 @@ import { Character } from "../../../entity/character";
 import { MapState } from "../../../entity/mapState";
 import { DirectionType } from "../../../type/directionType";
 
+/**
+ * キャラクターの移動方向のシミュレーションを表すインターフェース
+ */
 export interface SimulateDirectionService {
     /**
      * 自分のキャラクター

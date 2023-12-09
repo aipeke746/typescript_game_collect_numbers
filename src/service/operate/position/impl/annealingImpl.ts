@@ -9,6 +9,9 @@ import { OperatePositionCommonService } from "../operatePositionCommonService";
 import { OperatePositionService } from "../operatePositionService";
 import { RandomImpl } from "./randomImpl";
 
+/**
+ * 焼きなまし法で初期位置を決めてキャラクターを生成するクラス
+ */
 export class AnnelingImpl extends OperatePositionCommonService implements OperatePositionService {
     /**
      * ランダムにキャラクターの初期位置をセットするクラス
@@ -38,6 +41,10 @@ export class AnnelingImpl extends OperatePositionCommonService implements Operat
      */
     private readonly INF: number = 1000000000;
 
+    /**
+     * コンストラクタ
+     * @param scene シーン
+     */
     constructor(scene: Phaser.Scene) {
         super(scene);
         this.randomImpl = new RandomImpl(scene);

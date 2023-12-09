@@ -2,7 +2,7 @@ import { Params } from "../params";
 import { Coord } from "../vo/coord";
 
 /**
- * タイルマップの座標を生成するクラス
+ * タイルマップの座標を生成するファクトリークラス
  */
 export class CoordFactory {
     /**

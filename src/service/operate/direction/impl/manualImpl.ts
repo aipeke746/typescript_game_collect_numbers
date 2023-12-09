@@ -2,7 +2,7 @@ import { DirectionType } from "../../../../type/directionType";
 import { OperateDirectionService } from "../operateDirectionService";
 
 /**
- * キャラクターを手動で動かすクラス
+ * 手動でキャラクターを移動するクラス
  */
 export class ManualImpl implements OperateDirectionService {
     /**
@@ -10,6 +10,10 @@ export class ManualImpl implements OperateDirectionService {
      */
     private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
+    /**
+     * コンストラクタ
+     * @param scene シーン
+     */
     constructor(scene: Phaser.Scene) {
         if (scene.input.keyboard == null) throw new Error('keyboard is null');
         this.cursors = scene.input.keyboard.createCursorKeys();

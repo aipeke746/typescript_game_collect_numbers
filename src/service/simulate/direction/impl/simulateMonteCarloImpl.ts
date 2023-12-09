@@ -4,6 +4,9 @@ import { DirectionType } from "../../../../type/directionType";
 import { CharacterFactory } from '../../../../factory/characterFactory';
 import { SimulateDirectionService } from "../simulateDirectionService";
 
+/**
+ * モンテカルロ法でキャラクターの移動方向のシミュレーションを行うクラス
+ */
 export class SimulateMonteCarloImpl implements SimulateDirectionService {
     /**
      * 自分のキャラクター
@@ -26,6 +29,13 @@ export class SimulateMonteCarloImpl implements SimulateDirectionService {
      */
     public evaluatedScore: number;
 
+    /**
+     * コンストラクタ
+     * @param character 自分のキャラクター
+     * @param opponent 相手のキャラクター
+     * @param mapState マップの状態
+     * @param evaluatedScore シミュレーションの評価値
+     */
     constructor(character: Character, opponent: Character, mapState: MapState, evaluatedScore: number = 0) {
         this.character = CharacterFactory.clone(character);
         this.opponent = CharacterFactory.clone(opponent);
