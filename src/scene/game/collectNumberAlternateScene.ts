@@ -22,8 +22,8 @@ export class CollectNumberAlternateScene extends Phaser.Scene {
 
     init(/* data: any */) {
         this.operationType = [];
-        this.operationType.push(OperateDirectionFactory.create(this, OperateDirectionType.ALPHA_BETA));
-        this.operationType.push(OperateDirectionFactory.create(this, OperateDirectionType.ALPHA_BETA));
+        this.operationType.push(OperateDirectionFactory.create(this, OperateDirectionType.MONTE_CARLO));
+        this.operationType.push(OperateDirectionFactory.create(this, OperateDirectionType.MANUAL));
     }
 
     preload() {

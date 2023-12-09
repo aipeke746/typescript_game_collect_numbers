@@ -1,4 +1,7 @@
 export enum OperateDirectionType {
+
+    // 一人プレイ・対戦プレイ用
+
     /**
      * 手動
      */
@@ -19,8 +22,15 @@ export enum OperateDirectionType {
      * MINIMAX法
      */
     MINIMAX,
+
+    // 対戦プレイ用
+
     /**
      * αβ法
      */
     ALPHA_BETA,
+    /**
+     * モンテカルロ法
+     */
+    MONTE_CARLO,
 }

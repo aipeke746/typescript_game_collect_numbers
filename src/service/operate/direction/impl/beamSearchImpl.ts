@@ -52,7 +52,7 @@ export class BeamSearchImpl implements OperateDirectionService {
 
                 for (const direction of legalDirections) {
                     const nextState = nowState.clone();
-                    MapService.simulate(nextState, direction);
+                    MapService.simulateDirection(nextState, direction);
                     nextState.evaluate();
                     if (t === 0) nextState.firstDirection = direction;
                     nextBeam.push(nextState);

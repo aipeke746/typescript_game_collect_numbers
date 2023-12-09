@@ -41,7 +41,7 @@ export class AlphaBetaImpl implements OperateDirectionService {
 
         for (const direction of MapService.legalDirections(simulate.character)) {
             const nextState = simulate.clone();
-            MapService.simulate(nextState, direction);
+            MapService.simulateDirection(nextState, direction);
 
             const score = this.alphaBetaScore(nextState, this.depth, alpha, beta, false);
             if (score > alpha) {
@@ -110,7 +110,7 @@ export class AlphaBetaImpl implements OperateDirectionService {
      */
     private getChildScore(simulate: SimulateDirectionService, direction: DirectionType, depth: number, alpha: number, beta: number, myTurn: boolean): number {
         const nextState = simulate.clone();
-        MapService.simulate(nextState, direction);
+        MapService.simulateDirection(nextState, direction, myTurn);
         return this.alphaBetaScore(nextState, depth - 1, alpha, beta, !myTurn);
     }
 }

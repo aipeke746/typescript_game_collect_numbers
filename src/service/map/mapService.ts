@@ -32,12 +32,17 @@ export class MapService {
      * キャラクターを移動させる（シミュレーション用）
      * @param simulate シミュレーション
      * @param direction 移動方向
+     * @param myTurn 自分のターンかどうか（一人プレイの場合は相手がいないためtrue）
      */
-    public static simulate(simulate: SimulateDirectionService, direction: DirectionType): void {
+    public static simulateDirection(simulate: SimulateDirectionService, direction: DirectionType, myTurn: boolean = true): void {
         try {
+            const targetCharacter = myTurn ? simulate.character : simulate.opponent;
+            if (!targetCharacter) {
+                throw new Error("Opponent is not found");
+            }
             const nextCoord: Coord = this.getMoveToCoordFromCharacter(simulate.character, direction);
-            simulate.character.startWalk(nextCoord, direction);
-            simulate.mapState.advance(simulate.character, nextCoord);
+            targetCharacter.startWalk(nextCoord, direction);
+            simulate.mapState.advance(targetCharacter, nextCoord);
         } catch {
             return;
         }

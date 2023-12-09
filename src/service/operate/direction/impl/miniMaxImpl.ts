@@ -40,7 +40,7 @@ export class MiniMaxImpl implements OperateDirectionService {
 
         for (const direction of MapService.legalDirections(simulate.character)) {
             const nextState = simulate.clone();
-            MapService.simulate(nextState, direction);
+            MapService.simulateDirection(nextState, direction);
 
             const score = this.miniMaxScore(nextState, this.depth, false);
             if (score > bestScore) {
@@ -101,7 +101,7 @@ export class MiniMaxImpl implements OperateDirectionService {
      */
     private getChildScore(simulate: SimulateDirectionService, direction: DirectionType, depth: number, myTurn: boolean): number {
         const nextState = simulate.clone();
-        MapService.simulate(nextState, direction);
+        MapService.simulateDirection(nextState, direction, myTurn);
         return this.miniMaxScore(nextState, depth - 1, !myTurn);
     }
 }
