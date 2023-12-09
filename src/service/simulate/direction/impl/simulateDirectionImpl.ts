@@ -10,9 +10,13 @@ import { SimulateDirectionService } from "../simulateDirectionService";
  */
 export class SimulateDirectionImpl implements SimulateDirectionService {
     /**
-     * キャラクター
+     * 自分のキャラクター
      */
     public character: Character;
+    /**
+     * 相手のキャラクター(必要ないため未使用)
+     */
+    public opponent?: Character;
     /**
      * マップの状態
      */

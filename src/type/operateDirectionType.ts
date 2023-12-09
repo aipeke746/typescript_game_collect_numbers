@@ -15,4 +15,8 @@ export enum OperateDirectionType {
      * ビームサーチ
      */
     BEAM_SEARCH,
+    /**
+     * MINIMAX法
+     */
+    MINIMAX,
 }

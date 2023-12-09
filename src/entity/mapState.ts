@@ -52,7 +52,6 @@ export class MapState {
         this.turn++;
     }
 
-
     /**
      * マップの状態を返す
      * @returns マップの状態
@@ -92,7 +91,8 @@ export class MapState {
      * @returns ゲーム終了
      */
     public isDone(): boolean {
-        return this.turn >= Params.END_TURN;
+        return this.turn >= Params.END_TURN
+            || this.isAllZero();
     }
 
     /**
@@ -111,5 +111,20 @@ export class MapState {
      */
     public setPoint(coord: Coord, point: number): void {
         this.points[coord.y][coord.x] = point;
+    }
+
+    /**
+     * 全てのポイントが0かどうかを返す
+     * @returns 全てのポイントが0の場合はtrue
+     */
+    private isAllZero(): boolean {
+        for (let y=0; y<Params.MAP_ROW; y++) {
+            for (let x=0; x<Params.MAP_COLUMN; x++) {
+                if (this.points[y][x] !== MapState.ZERO_POINT) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

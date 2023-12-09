@@ -5,7 +5,7 @@ import { DirectionType } from "../../../../type/directionType";
 import { MapService } from "../../../map/mapService";
 import { OperateDirectionService } from "../operateDirectionService";
 import { SimulateDirectionService } from "../../../simulate/direction/simulateDirectionService";
-import { MapState } from "../../../../entity/mapState";
+import { MapState } from '../../../../entity/mapState';
 
 /**
  * ビームサーチ法を使ってキャラクターの移動方向を決定するクラス

@@ -4,9 +4,14 @@ import { DirectionType } from "../../../type/directionType";
 
 export interface SimulateDirectionService {
     /**
-     * キャラクター
+     * 自分のキャラクター
      */
     character: Character;
+    /**
+     * 相手のキャラクター
+     * （対戦形式の場合は必要）
+     */
+    opponent?: Character;
     /**
      * マップの状態
      */

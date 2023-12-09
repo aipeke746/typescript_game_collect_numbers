@@ -27,6 +27,8 @@ export class SelectOperationScene extends Phaser.Scene {
             this.createTextToCollectNumberAutoScene(this.sys.canvas.width/2, this.sys.canvas.height/2, 'ランダムでプレイする', OperatePositionType.RANDOM);
             this.createTextToCollectNumberAutoScene(this.sys.canvas.width/2, this.sys.canvas.height/2+30, '山登り法でプレイする', OperatePositionType.HILL_CLIMB);
             this.createTextToCollectNumberAutoScene(this.sys.canvas.width/2, this.sys.canvas.height/2+60, '焼きなまし法でプレイする', OperatePositionType.ANNEALING);
+        } else if (this.gameType === GameType.COLLECT_NUMBER_ALTERNATE) {
+            this.createTextToCollectNumberAlternateScene(this.sys.canvas.width/2, this.sys.canvas.height/2-30, '手動でプレイする', OperateDirectionType.MANUAL);
         }
     }
 
@@ -51,6 +53,10 @@ export class SelectOperationScene extends Phaser.Scene {
      */
     private createTextToCollectNumberAutoScene(x: number, y: number, content: string, operationType: OperatePositionType): void {
         this.createText(x, y, content, operationType, 'collectNumberAutoScene');
+    }
+
+    private createTextToCollectNumberAlternateScene(x: number, y: number, content: string, operationType: OperateDirectionType): void {
+        this.createText(x, y, content, operationType, 'collectNumberAlternateScene');
     }
 
     /**

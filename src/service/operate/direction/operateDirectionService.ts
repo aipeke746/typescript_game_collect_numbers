@@ -8,9 +8,10 @@ import { DirectionType } from "../../../type/directionType";
 export interface OperateDirectionService {
     /**
      * キャラクターの移動方向を返す
-     * @param characters キャラクター
+     * @param character キャラクター
      * @param tilemap タイルマップ
+     * @param opponent 相手のキャラクター（対戦モードのみで必要）
      * @returns キャラクターの移動方向
      */
-    getDirection(characters: Character, mapState: MapState): DirectionType;
+    getDirection(character: Character, mapState: MapState, opponent?: Character): DirectionType;
 }

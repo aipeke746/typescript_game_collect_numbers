@@ -53,7 +53,7 @@ export class MapService {
 
         try {
             simulate.characters.map(character => {
-                const direction = greedyDirection.getDirection(character, simulate.mapState);
+                const direction = greedyDirection.getDirection(character, simulate.mapState, undefined);
                 const nextCoord = this.getMoveToCoordFromCharacter(character, direction);
 
                 return { character, nextCoord, direction };

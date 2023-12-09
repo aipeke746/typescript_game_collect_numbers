@@ -54,7 +54,7 @@ export class CollectNumberScene extends Phaser.Scene {
             BattleService.showResult(this, this.character);
         } else {
             // ゲームプレイ中
-            const direction: DirectionType = this.operationType.getDirection(this.character, this.tilemap.mapState);
+            const direction: DirectionType = this.operationType.getDirection(this.character, this.tilemap.mapState, undefined);
             if (direction === DirectionType.NONE) return;
 
             this.timeDelayManager.update();

@@ -20,9 +20,9 @@ export class CollectNumberAlternateScene extends Phaser.Scene {
         super({ key: 'collectNumberAlternateScene' });
     }
 
-    init(data: any) {
+    init(/* data: any */) {
         this.operationType = [];
-        this.operationType.push(OperateDirectionFactory.create(this, OperateDirectionType.MANUAL));
+        this.operationType.push(OperateDirectionFactory.create(this, OperateDirectionType.MINIMAX));
         this.operationType.push(OperateDirectionFactory.create(this, OperateDirectionType.MANUAL));
     }
 
@@ -60,12 +60,13 @@ export class CollectNumberAlternateScene extends Phaser.Scene {
             BattleService.showResult3(this, this.characters);
         } else {
             // ゲームプレイ中
-            const turn = this.tilemap.mapState.getTurn() % this.characters.length;
-            const direction = this.operationType[turn].getDirection(this.characters[turn], this.tilemap.mapState);
+            const nowTurn = this.tilemap.mapState.getTurn() % this.characters.length;
+            const oppTurn = nowTurn === 0 ? 1 : 0;
+            const direction = this.operationType[nowTurn].getDirection(this.characters[nowTurn], this.tilemap.mapState, this.characters[oppTurn]);
             if (direction === DirectionType.NONE) return;
 
             this.timeDelayManager.update();
-            MapService.advance(this.characters[turn], this.tilemap, direction);
+            MapService.advance(this.characters[nowTurn], this.tilemap, direction);
         }
     }
 }
