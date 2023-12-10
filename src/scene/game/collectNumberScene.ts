@@ -45,6 +45,12 @@ export class CollectNumberScene extends Phaser.Scene {
         this.tilemap.mapState.setPoint(this.character.getCoord(), MapState.ZERO_POINT);
         this.tilemap.advance(this.character, this.character.getCoord());
         this.tilemap.mapState.resetTurn();
+
+
+        const moveSound = this.sound.add('moveSound');
+        this.input.on('pointerup', function() {
+            moveSound.play();
+        });
     }
 
     update() {

@@ -28,7 +28,7 @@ export class Character {
      */
     private score: number = 0;
 
-    private moveSound: Phaser.Sound.BaseSound;
+    // private moveSound: Phaser.Sound.BaseSound;
 
     /**
      * キャラクターを生成する
@@ -43,7 +43,7 @@ export class Character {
         this.walking = walking;
         this.score = score;
 
-        this.moveSound = sprite.scene.sound.add('moveSound');
+        // this.moveSound = sprite.scene.sound.add('moveSound');
     }
 
     /**
@@ -102,7 +102,7 @@ export class Character {
     public startWalk(nextCoord: Coord, direction: DirectionType): void {
         this.walking = true;
         this.coord = nextCoord;
-        this.moveSound.play();
+        // this.moveSound.play();
         this.playAnimation(WalkTypeUtil.get(direction));
     }
 
