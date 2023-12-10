@@ -28,6 +28,8 @@ export class Character {
      */
     private score: number = 0;
 
+    private moveSound: Phaser.Sound.BaseSound;
+
     /**
      * キャラクターを生成する
      * @param sprite スプライト
@@ -40,6 +42,8 @@ export class Character {
         this.coord = coord;
         this.walking = walking;
         this.score = score;
+
+        this.moveSound = sprite.scene.sound.add('moveSound');
     }
 
     /**
@@ -98,6 +102,7 @@ export class Character {
     public startWalk(nextCoord: Coord, direction: DirectionType): void {
         this.walking = true;
         this.coord = nextCoord;
+        this.moveSound.play();
         this.playAnimation(WalkTypeUtil.get(direction));
     }
 

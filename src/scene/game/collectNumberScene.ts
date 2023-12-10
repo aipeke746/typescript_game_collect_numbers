@@ -31,6 +31,8 @@ export class CollectNumberScene extends Phaser.Scene {
         this.load.image('mapTiles', 'assets/images/numbers.png');
         this.load.spritesheet('character', 'assets/images/character.png', { frameWidth: 32, frameHeight: 32 })
         this.load.image('backButton', 'assets/images/backButton.png');
+
+        this.load.audio('moveSound', 'assets/sounds/damage.mp3');
     }
 
     create() {
