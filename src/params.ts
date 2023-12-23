@@ -5,11 +5,11 @@ export class Params {
     /**
      * マップの列数
      */
-    public static readonly MAP_COLUMN: number = 4;
+    public static readonly MAP_COLUMN: number = 8;
     /**
      * マップの行数
      */
-    public static readonly MAP_ROW: number = 4;
+    public static readonly MAP_ROW: number = 8;
     /**
      * ターン終了のターン数
      */
