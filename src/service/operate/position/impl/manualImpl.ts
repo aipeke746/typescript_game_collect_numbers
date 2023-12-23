@@ -38,6 +38,7 @@ export class ManualImpl extends OperatePositionCommonService implements OperateP
      */
     public getCharacters(tilemap: Tilemap): Character[] {
         this.pointer.downElement.addEventListener('pointerdown', () => {
+            console.log(this.pointer.position)
             this.create(tilemap);
         });
         MapService.initializations(tilemap, this.characters);

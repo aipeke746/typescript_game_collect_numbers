@@ -126,6 +126,7 @@ export class ManualImpl implements OperateDirectionService {
      * ポインターのダウンイベントハンドラ
      */
     private onPointerDown(): void {
+        console.log(this.pointer.position);
         this.isPointerUp = false;
         this.canMove = true;
     }
